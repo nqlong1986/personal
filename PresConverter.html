@@ -2,41 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced Pressure Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 340px;
-        }
-        h2 {
-            text-align: center;
-        }
-        input, select, button {
-            width: 100%;
-            margin-top: 10px;
-            padding: 8px;
-            font-size: 14px;
-        }
-        .result {
-            margin-top: 15px;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nqlong1986 - Personal Pages for Fun</title>
+    <link rel="stylesheet" href="templatemo-prism-flux.css">
+<!-- 
+
+-->
 </head>
 <body>
+<div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-prism">
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+            </div>
+            <div style="color: var(--accent-purple); font-size: 18px; text-transform: uppercase; letter-spacing: 3px;">Refracting Reality...</div>
+        </div>
+    </div>
 
+    <!-- Navigation Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <div class="logo-prism">
+                        <div class="prism-shape"></div>
+                    </div>
+                </div>
+                <span class="logo-text">
+                    <span class="prism">Nqlong1986</span>
+                    <span class="flux">Homepage</span>
+                </span>
+            </a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#stats" class="nav-link">Quizzes</a></li>
+                <li><a href="#skills" class="nav-link">Tools</a></li>
+                <li><a href="#contact" class="nav-link">Games</a></li>
+            </ul>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
 <div class="container">
     <h2>Pressure Converter</h2>
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Pressure Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 340px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input, select, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pressure Converter</h2>
+
+    <input type="number" id="inputValue" placeholder="Enter value">
+
+    <label>From:</label>
+    <select id="fromUnit">
+        <option value="Pa">Pascal (Pa)</option>
+        <option value="kPa">Kilopascal (kPa)</option>
+        <option value="MPa">Megapascal (MPa)</option>
+        <option value="bar">Bar</option>
+        <option value="mbar">Millibar (mbar)</option>
+        <option value="psi">PSI</option>
+        <option value="atm">Atmosphere (atm)</option>
+        <option value="torr">Torr</option>
+        <option value="mTorr">mTorr</option>
+        <option value="mmHg">mmHg</option>
+        <option value="inHg">inHg</option>
+    </select>
+
+    <label>To:</label>
+    <select id="toUnit">
+        <option value="Pa">Pascal (Pa)</option>
+        <option value="kPa">Kilopascal (kPa)</option>
+        <option value="MPa">Megapascal (MPa)</option>
+        <option value="bar">Bar</option>
+        <option value="mbar">Millibar (mbar)</option>
+        <option value="psi">PSI</option>
+        <option value="atm">Atmosphere (atm)</option>
+        <option value="torr">Torr</option>
+        <option value="mTorr">mTorr</option>
+        <option value="mmHg">mmHg</option>
+        <option value="inHg">inHg</option>
+    </select>
+
+    <button onclick="convertPressure()">Convert</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function convertPressure() {
+    const value = parseFloat(document.getElementById("inputValue").value);
+    const from = document.getElementById("fromUnit").value;
+    const to = document.getElementById("toUnit").value;
+
+    if (isNaN(value)) {
+        document.getElementById("result").innerText = "Please enter a valid number";
+        return;
+    }
+
+    // Convert everything to Pascals
+    let valueInPa;
+
+    switch (from) {
+        case "Pa": valueInPa = value; break;
+        case "kPa": valueInPa = value * 1000; break;
+        case "MPa": valueInPa = value * 1e6; break;
+        case "bar": valueInPa = value * 100000; break;
+        case "mbar": valueInPa = value * 100; break;
+        case "psi": valueInPa = value * 6894.76; break;
+        case "atm": valueInPa = value * 101325; break;
+        case "torr": valueInPa = value * 133.322; break;
+        case "mTorr": valueInPa = value * 0.133322; break;
+        case "mmHg": valueInPa = value * 133.322; break;
+        case "inHg": valueInPa = value * 3386.39; break;
+    }
+
+    // Convert from Pascals to target unit
+    let result;
+
+    switch (to) {
+        case "Pa": result = valueInPa; break;
+        case "kPa": result = valueInPa / 1000; break;
+        case "MPa": result = valueInPa / 1e6; break;
+        case "bar": result = valueInPa / 100000; break;
+        case "mbar": result = valueInPa / 100; break;
+        case "psi": result = valueInPa / 6894.76; break;
+        case "atm": result = valueInPa / 101325; break;
+        case "torr": result = valueInPa / 133.322; break;
+        case "mTorr": result = valueInPa / 0.133322; break;
+        case "mmHg": result = valueInPa / 133.322; break;
+        case "inHg": result = valueInPa / 3386.39; break;
+    }
+
+    document.getElementById("result").innerText =
+        value + " " + from + " = " + result.toFixed(6) + " " + to;
+}
+</script>
+
+</body>
+</html>

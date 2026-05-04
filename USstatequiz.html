@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>US States Quiz</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f0f2f5;
+}
+
+#quiz-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 420px;
+  margin: 30px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  font-size: 16px;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#answers span {
+  margin: 3px;
+  display: inline-block;
+}
+
+.found { color: green; }
+.missed { color: red; }
+
+#timer {
+  font-weight: bold;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>US States Quiz</h1>
+
+<div id="quiz-box">
+
+<div>
+  <strong>Difficulty:</strong><br>
+  <button onclick="setLevel('easy')">Easy</button>
+  <button onclick="setLevel('medium')">Medium</button>
+  <button onclick="setLevel('hard')">Hard</button>
+</div>
+
+<br>
+
+<input type="text" id="input" placeholder="Type a state..." disabled>
+
+<div id="score">0 / 0</div>
+<div id="timer">Time: 0</div>
+
+<button onclick="startGame()">Start</button>
+<button onclick="giveUp()">Give Up</button>
+
+<div id="answers"></div>
+
+</div>
+
+<script>
+
+// --- DATA ---
+const allStates = [
+"alabama","alaska","arizona","arkansas","california","colorado","connecticut",
+"delaware","florida","georgia","hawaii","idaho","illinois","indiana","iowa",
+"kansas","kentucky","louisiana","maine","maryland","massachusetts","michigan",
+"minnesota","mississippi","missouri","montana","nebraska","nevada",
+"new hampshire","new jersey","new mexico","new york","north carolina",
+"north dakota","ohio","oklahoma","oregon","pennsylvania","rhode island",
+"south carolina","south dakota","tennessee","texas","utah","vermont",
+"virginia","washington","west virginia","wisconsin","wyoming"
+];
+
+// Abbreviations
+const abbreviations = {
+  "ca": "california", "tx": "texas", "ny": "new york",
+  "fl": "florida", "il": "illinois", "pa": "pennsylvania"
+};
+
+// Levels
+const levels = {
+  easy: allStates.slice(0, 20),
+  medium: allStates.slice(0, 35),
+  hard: allStates
+};
+
+let currentStates = [];
+let found = [];
+let time = 0;
+let timerInterval;
+let selectedLevel = "easy";
+
+// --- FUNCTIONS ---
+
+function setLevel(level) {
+  selectedLevel = level;
+  alert("Level set to " + level);
+}
+
+function startGame() {
+  clearInterval(timerInterval);
+
+  currentStates = levels[selectedLevel];
+  found = [];
+  time = selectedLevel === "easy" ? 180 :
+         selectedLevel === "medium" ? 240 : 300;
+
+  document.getElementById("input").disabled = false;
+  document.getElementById("input").value = "";
+  document.getElementById("answers").innerHTML = "";
+
+  updateScore();
+  updateTimer();
+
+  timerInterval = setInterval(() => {
+    time--;
+    updateTimer();
+
+    if (time <= 0) {
+      endGame();
+    }
+  }, 1000);
+}
+
+function updateScore() {
+  document.getElementById("score").textContent =
+    `${found.length} / ${currentStates.length}`;
+}
+
+function updateTimer() {
+  document.getElementById("timer").textContent =
+    "Time: " + time + "s";
+}
+
+document.getElementById("input").addEventListener("input", function() {
+  let guess = this.value.toLowerCase().trim();
+
+  if (abbreviations[guess]) {
+    guess = abbreviations[guess];
+  }
+
+  if (currentStates.includes(guess) && !found.includes(guess)) {
+    found.push(guess);
+
+    const span = document.createElement("span");
+    span.textContent = guess + " ";
+    span.classList.add("found");
+    document.getElementById("answers").appendChild(span);
+
+    this.value = "";
+    updateScore();
+
+    if (found.length === currentStates.length) {
+      endGame();
+    }
+  }
+});
+
+function giveUp() {
+  endGame(true);
+}
+
+function endGame(gaveUp = false) {
+  clearInterval(timerInterval);
+  document.getElementById("input").disabled = true;
+
+  const answersDiv = document.getElementById("answers");
+
+  currentStates.forEach(state => {
+    if (!found.includes(state)) {
+      const span = document.createElement("span");
+      span.textContent = state + " ";
+      span.classList.add("missed");
+      answersDiv.appendChild(span);
+    }
+  });
+
+  if (!gaveUp) {
+    alert("Time's up!");
+  } else {
+    alert("You gave up!");
+  }
+}
+
+</script>
+
+</body>
+</html>

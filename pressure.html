@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pressure Unit Converter - PSI, Bar, kPa, MPa, atm Conversion Calculator</title>
+
+<meta name="description" content="Free Pressure Unit Converter. Convert PSI, Bar, Pascal, kPa, MPa, Torr, mmHg, atm, and more instantly with accurate pressure calculations.">
+
+<meta name="keywords" content="pressure converter, psi to bar, bar to psi, pressure conversion calculator, kpa to psi, atm to bar, pascal converter, pressure unit converter">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
+    line-height:1.6;
+    color:#333;
+}
+
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#1a73e8;
+}
+
+h2{
+    margin-top:30px;
+    margin-bottom:10px;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#1a73e8;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1557b0;
+}
+
+.result{
+    margin-top:15px;
+    padding:15px;
+    background:#f0f7ff;
+    border-radius:6px;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.seo-content{
+    margin-top:30px;
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+ul{
+    padding-left:20px;
+}
+
+li{
+    margin:5px 0;
+}
+
+.faq{
+    margin-top:15px;
+}
+
+footer{
+    text-align:center;
+    margin-top:20px;
+    color:#777;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Pressure Unit Converter</h1>
+
+<input type="number" id="value" placeholder="Enter Pressure Value">
+
+<select id="fromUnit">
+<option value="Pa">Pascal (Pa)</option>
+<option value="kPa">Kilopascal (kPa)</option>
+<option value="MPa">Megapascal (MPa)</option>
+<option value="bar">Bar</option>
+<option value="mbar">Millibar (mbar)</option>
+<option value="psi">PSI</option>
+<option value="ksi">KSI</option>
+<option value="atm">Atmosphere (atm)</option>
+<option value="torr">Torr</option>
+<option value="mmHg">Millimeter of Mercury (mmHg)</option>
+<option value="inHg">Inch of Mercury (inHg)</option>
+<option value="cmH2O">Centimeter of Water (cmH₂O)</option>
+<option value="mmH2O">Millimeter of Water (mmH₂O)</option>
+<option value="kgcm2">kg/cm²</option>
+<option value="Ncm2">N/cm²</option>
+<option value="Nm2">N/m²</option>
+<option value="hPa">Hectopascal (hPa)</option>
+<option value="dynecm2">Dyne/cm²</option>
+</select>
+
+<select id="toUnit">
+<option value="Pa">Pascal (Pa)</option>
+<option value="kPa">Kilopascal (kPa)</option>
+<option value="MPa">Megapascal (MPa)</option>
+<option value="bar">Bar</option>
+<option value="mbar">Millibar (mbar)</option>
+<option value="psi">PSI</option>
+<option value="ksi">KSI</option>
+<option value="atm">Atmosphere (atm)</option>
+<option value="torr">Torr</option>
+<option value="mmHg">Millimeter of Mercury (mmHg)</option>
+<option value="inHg">Inch of Mercury (inHg)</option>
+<option value="cmH2O">Centimeter of Water (cmH₂O)</option>
+<option value="mmH2O">Millimeter of Water (mmH₂O)</option>
+<option value="kgcm2">kg/cm²</option>
+<option value="Ncm2">N/cm²</option>
+<option value="Nm2">N/m²</option>
+<option value="hPa">Hectopascal (hPa)</option>
+<option value="dynecm2">Dyne/cm²</option>
+</select>
+
+<button onclick="convertPressure()">Convert Pressure</button>
+
+<div class="result" id="result">
+Enter a value and click Convert
+</div>
+
+</div>
+
+<div class="seo-content">
+
+<h2>Free Online Pressure Converter</h2>
+
+<p>
+Convert pressure units instantly between Pascal (Pa), Kilopascal (kPa),
+Megapascal (MPa), Bar, PSI, Atmosphere (atm), Torr, mmHg, inHg,
+kg/cm², and more. This calculator is useful for engineering,
+hydraulics, pneumatics, HVAC systems, weather forecasting,
+automotive applications, and scientific calculations.
+</p>
+
+<h2>Common Pressure Conversions</h2>
+
+<ul>
+<li>1 Bar = 100,000 Pa</li>
+<li>1 Atmosphere = 101,325 Pa</li>
+<li>1 PSI = 6,894.757 Pa</li>
+<li>1 kPa = 1,000 Pa</li>
+<li>1 MPa = 1,000,000 Pa</li>
+<li>1 Torr = 133.322 Pa</li>
+<li>1 mmHg = 133.322 Pa</li>
+<li>1 Bar = 14.5038 PSI</li>
+<li>1 PSI = 0.06895 Bar</li>
+</ul>
+
+<h2>What is PSI?</h2>
+
+<p>
+PSI (Pounds per Square Inch) is a pressure unit commonly used in
+the United States for measuring tire pressure, compressed air,
+hydraulic systems, and industrial equipment.
+</p>
+
+<h2>What is Bar?</h2>
+
+<p>
+Bar is a metric pressure unit equal to 100,000 Pascals. It is widely
+used in engineering, weather forecasting, and industrial applications.
+</p>
+
+<h2>What is Atmospheric Pressure?</h2>
+
+<p>
+Standard atmospheric pressure equals 1 atm or 101,325 Pascals.
+Atmospheric pressure changes depending on altitude and weather conditions.
+</p>
+
+<h2>Pressure Conversion Formula</h2>
+
+<p>
+Converted Pressure = Input Value × Source Unit Factor ÷ Target Unit Factor
+</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<div class="faq">
+<h3>How many PSI are in 1 Bar?</h3>
+<p>1 Bar equals approximately 14.5038 PSI.</p>
+
+<h3>How many kPa are in 1 PSI?</h3>
+<p>1 PSI equals approximately 6.89476 kPa.</p>
+
+<h3>What is the SI unit of pressure?</h3>
+<p>The SI unit of pressure is the Pascal (Pa).</p>
+
+<h3>How many Bar are in 1 MPa?</h3>
+<p>1 MPa equals 10 Bar.</p>
+</div>
+
+</div>
+
+<footer>
+© 2026 Pressure Unit Converter
+</footer>
+
+</div>
+
+<script>
+const toPa = {
+    Pa:1,
+    kPa:1000,
+    MPa:1000000,
+    bar:100000,
+    mbar:100,
+    psi:6894.757,
+    ksi:6894757,
+    atm:101325,
+    torr:133.322,
+    mmHg:133.322,
+    inHg:3386.389,
+    cmH2O:98.0665,
+    mmH2O:9.80665,
+    kgcm2:98066.5,
+    Ncm2:10000,
+    Nm2:1,
+    hPa:100,
+    dynecm2:0.1
+};
+
+function convertPressure(){
+
+    const value = parseFloat(document.getElementById('value').value);
+    const from = document.getElementById('fromUnit').value;
+    const to = document.getElementById('toUnit').value;
+
+    if(isNaN(value)){
+        document.getElementById('result').innerHTML =
+        'Please enter a valid number';
+        return;
+    }
+
+    const pascalValue = value * toPa[from];
+    const result = pascalValue / toPa[to];
+
+    document.getElementById('result').innerHTML =
+    `${value.toLocaleString()} ${from} = ${result.toLocaleString(undefined,{
+        maximumFractionDigits:8
+    })} ${to}`;
+}
+
+document.getElementById('value').addEventListener('input', convertPressure);
+document.getElementById('fromUnit').addEventListener('change', convertPressure);
+document.getElementById('toUnit').addEventListener('change', convertPressure);
+</script>
+
+</body>
+</html>

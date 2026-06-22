@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free QR Code Generator Online | Create QR Codes for URLs, Text & More</title>
+
+<meta name="description"
+      content="Generate QR codes instantly for websites, URLs, text, contact details, WiFi passwords, and more. Free online QR Code Generator with download option.">
+
+<meta name="keywords"
+      content="QR Code Generator, Free QR Code, Create QR Code Online, URL QR Code, QR Maker, QR Generator">
+
+<meta name="robots" content="index, follow">
+<meta name="author" content="Personal Webpages">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Free QR Code Generator Online">
+<meta property="og:description" content="Create QR codes instantly and download them for free.">
+<meta property="og:type" content="website">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        font-family:Arial, sans-serif;
+        background:#f5f7fa;
+        color:#333;
+        line-height:1.7;
+    }
+
+    .container{
+        max-width:900px;
+        margin:auto;
+        padding:30px 20px;
+    }
+
+    header{
+        text-align:center;
+        margin-bottom:30px;
+    }
+
+    h1{
+        color:#1a73e8;
+        margin-bottom:10px;
+    }
+
+    .generator-box{
+        background:#fff;
+        padding:30px;
+        border-radius:12px;
+        box-shadow:0 3px 15px rgba(0,0,0,0.08);
+        text-align:center;
+    }
+
+    input{
+        width:100%;
+        padding:14px;
+        border:1px solid #ddd;
+        border-radius:6px;
+        margin-top:15px;
+        font-size:16px;
+    }
+
+    button{
+        background:#1a73e8;
+        color:#fff;
+        border:none;
+        padding:12px 25px;
+        margin-top:15px;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:16px;
+    }
+
+    button:hover{
+        background:#0d5cc9;
+    }
+
+    #qrcode{
+        margin-top:25px;
+        display:flex;
+        justify-content:center;
+    }
+
+    .content{
+        margin-top:40px;
+    }
+
+    .content h2{
+        margin-top:25px;
+        color:#222;
+    }
+
+    .content ul{
+        margin-left:20px;
+    }
+
+    footer{
+        margin-top:40px;
+        text-align:center;
+        color:#666;
+        font-size:14px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>Free QR Code Generator</h1>
+    <p>Create QR codes online instantly for URLs, text, contact information, WiFi credentials, and more.</p>
+</header>
+
+<section class="generator-box">
+
+    <h2>Create Your QR Code</h2>
+
+    <input
+        type="text"
+        id="qrText"
+        placeholder="Enter URL, text, phone number, email, or any content">
+
+    <button onclick="generateQR()">
+        Generate QR Code
+    </button>
+
+    <div id="qrcode"></div>
+
+</section>
+
+<section class="content">
+
+    <h2>What is a QR Code?</h2>
+
+    <p>
+        A QR (Quick Response) Code is a two-dimensional barcode that stores
+        information such as website URLs, contact details, text messages,
+        product information, and more. Users can scan QR codes using their
+        smartphone cameras to instantly access the stored information.
+    </p>
+
+    <h2>How to Use This QR Code Generator</h2>
+
+    <ul>
+        <li>Enter your URL, text, email address, phone number, or any content.</li>
+        <li>Click the "Generate QR Code" button.</li>
+        <li>Your QR code will appear instantly.</li>
+        <li>Scan it using your smartphone camera.</li>
+        <li>Share or save the QR code for business or personal use.</li>
+    </ul>
+
+    <h2>Popular Uses for QR Codes</h2>
+
+    <ul>
+        <li>Website links</li>
+        <li>Business cards</li>
+        <li>Restaurant menus</li>
+        <li>Event registrations</li>
+        <li>WiFi sharing</li>
+        <li>Social media profiles</li>
+        <li>Product packaging</li>
+        <li>Digital payments</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>Is this QR Code Generator free?</h3>
+    <p>Yes, you can create unlimited QR codes completely free.</p>
+
+    <h3>Do QR codes expire?</h3>
+    <p>No. Static QR codes remain active permanently unless the linked content changes.</p>
+
+    <h3>Can I create QR codes for websites?</h3>
+    <p>Yes. Simply paste your website URL and generate a QR code instantly.</p>
+
+</section>
+
+<footer>
+    © 2026 QR Code Generator. All Rights Reserved.
+</footer>
+
+</div>
+
+<script>
+function generateQR() {
+
+    const qrContainer = document.getElementById("qrcode");
+    const text = document.getElementById("qrText").value.trim();
+
+    qrContainer.innerHTML = "";
+
+    if(text === ""){
+        alert("Please enter some text or URL.");
+        return;
+    }
+
+    new QRCode(qrContainer, {
+        text: text,
+        width: 250,
+        height: 250,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+}
+</script>
+
+</body>
+</html>

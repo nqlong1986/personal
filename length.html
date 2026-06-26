@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <title>Length Unit Converter | Convert Meters, Feet, Inches, Miles & More</title>
+    <meta name="description" content="Free online length unit converter. Convert between millimeters, centimeters, meters, kilometers, inches, feet, yards, and miles instantly.">
+    <meta name="keywords" content="length converter, unit converter, meters to feet, inches to cm, km to miles, measurement converter">
+    <meta name="author" content="Personal Webpage">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Length Unit Converter">
+    <meta property="og:description" content="Convert between common length units instantly.">
+    <meta property="og:type" content="website">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://example.com/length-converter">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebApplication",
+      "name":"Length Unit Converter",
+      "applicationCategory":"UtilityApplication",
+      "operatingSystem":"Any",
+      "description":"Convert between meters, feet, inches, miles and other length units."
+    }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .converter {
+            background: #fff;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0077ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #005fd1;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter">
+    <h1>Length Unit Converter</h1>
+
+    <div class="form-group">
+        <label for="value">Enter Value</label>
+        <input type="number" id="value" placeholder="Enter length" step="any">
+    </div>
+
+    <div class="form-group">
+        <label for="fromUnit">From</label>
+        <select id="fromUnit">
+            <option value="mm">Millimeter (mm)</option>
+            <option value="cm">Centimeter (cm)</option>
+            <option value="m" selected>Meter (m)</option>
+            <option value="km">Kilometer (km)</option>
+            <option value="in">Inch (in)</option>
+            <option value="ft">Foot (ft)</option>
+            <option value="yd">Yard (yd)</option>
+            <option value="mi">Mile (mi)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="toUnit">To</label>
+        <select id="toUnit">
+            <option value="mm">Millimeter (mm)</option>
+            <option value="cm">Centimeter (cm)</option>
+            <option value="m">Meter (m)</option>
+            <option value="km">Kilometer (km)</option>
+            <option value="in">Inch (in)</option>
+            <option value="ft" selected>Foot (ft)</option>
+            <option value="yd">Yard (yd)</option>
+            <option value="mi">Mile (mi)</option>
+        </select>
+    </div>
+
+    <button onclick="convertLength()">Convert</button>
+
+    <div class="result" id="result">
+        Result will appear here
+    </div>
+</div>
+
+<script>
+const conversionToMeters = {
+    mm: 0.001,
+    cm: 0.01,
+    m: 1,
+    km: 1000,
+    in: 0.0254,
+    ft: 0.3048,
+    yd: 0.9144,
+    mi: 1609.344
+};
+
+function convertLength() {
+    const value = parseFloat(document.getElementById("value").value);
+    const fromUnit = document.getElementById("fromUnit").value;
+    const toUnit = document.getElementById("toUnit").value;
+    const resultDiv = document.getElementById("result");
+
+    if (isNaN(value)) {
+        resultDiv.textContent = "Please enter a valid number.";
+        return;
+    }
+
+    const meters = value * conversionToMeters[fromUnit];
+    const result = meters / conversionToMeters[toUnit];
+
+    resultDiv.textContent =
+        `${value} ${fromUnit} = ${result.toLocaleString(undefined, {
+            maximumFractionDigits: 10
+        })} ${toUnit}`;
+}
+</script>
+
+</body>
+</html>
+

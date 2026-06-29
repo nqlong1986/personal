@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Dollar Cost Averaging (DCA) Calculator</title>
+
+<meta name="description" content="Calculate your investment growth with our free Dollar Cost Averaging Calculator. Estimate portfolio value, total invested, profits, and inflation-adjusted returns.">
+
+<meta name="keywords" content="dca calculator,dollar cost averaging calculator,investment calculator,compound interest calculator,stock investment calculator,crypto dca calculator">
+
+<meta name="robots" content="index,follow">
+
+<link rel="canonical" href="https://example.com/dca-calculator">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dollar Cost Averaging Calculator">
+<meta property="og:description" content="Free DCA Calculator with inflation adjustment and recurring investments.">
+<meta property="og:image" content="https://example.com/images/dca.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dollar Cost Averaging Calculator">
+<meta name="twitter:description" content="Estimate future investment growth with recurring contributions.">
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"WebApplication",
+"name":"Dollar Cost Averaging Calculator",
+"applicationCategory":"FinanceApplication",
+"operatingSystem":"Any",
+"url":"https://example.com/dca-calculator",
+"offers":{
+"@type":"Offer",
+"price":"0"
+}
+}
+</script>
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"FAQPage",
+"mainEntity":[
+{
+"@type":"Question",
+"name":"What is Dollar Cost Averaging?",
+"acceptedAnswer":{
+"@type":"Answer",
+"text":"Dollar Cost Averaging is an investment strategy where you invest a fixed amount at regular intervals regardless of market prices."
+}
+},
+{
+"@type":"Question",
+"name":"Is Dollar Cost Averaging good for long-term investing?",
+"acceptedAnswer":{
+"@type":"Answer",
+"text":"Many long-term investors use Dollar Cost Averaging because it helps reduce the impact of market volatility through consistent investing."
+}
+}
+]
+}
+</script>
+
+<style>
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f4f4;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:#fff;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-top:15px;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+box-sizing:border-box;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+margin-top:20px;
+padding:12px;
+background:#0077cc;
+color:#fff;
+border:none;
+border-radius:5px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#005fa3;
+}
+
+.result{
+margin-top:25px;
+padding:15px;
+background:#eef6ff;
+border-radius:8px;
+}
+
+footer{
+margin-top:40px;
+font-size:14px;
+color:#666;
+text-align:center;
+}
+
+details{
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Dollar Cost Averaging Calculator</h1>
+
+<label>Currency</label>
+<select id="currency">
+<option value="$">$ USD</option>
+<option value="€">€ EUR</option>
+<option value="£">£ GBP</option>
+<option value="¥">¥ JPY</option>
+<option value="A$">A$ AUD</option>
+<option value="C$">C$ CAD</option>
+<option value="₹">₹ INR</option>
+</select>
+
+<label>Initial Investment</label>
+<input type="number" id="initial" value="1000">
+
+<label>Contribution Amount</label>
+<input type="number" id="monthly" value="500">
+
+<label>Contribution Frequency</label>
+<select id="frequency">
+<option value="52">Weekly</option>
+<option value="26">Bi-weekly</option>
+<option value="12" selected>Monthly</option>
+<option value="4">Quarterly</option>
+<option value="1">Yearly</option>
+</select>
+
+<label>Annual Return (%)</label>
+<input type="number" id="rate" value="10">
+
+<label>Investment Duration (Years)</label>
+<input type="number" id="years" value="20">
+
+<label>Annual Contribution Increase (%)</label>
+<input type="number" id="increase" value="0">
+
+<label>Inflation Rate (%)</label>
+<input type="number" id="inflation" value="2">
+
+<label>
+<input type="checkbox" id="dividend">
+ Reinvest Dividends (+2%)
+</label>
+
+<button onclick="calculate()">Calculate</button>
+
+<div class="result">
+
+<p><strong>Total Invested:</strong>
+<span id="invested"></span></p>
+
+<p><strong>Portfolio Value:</strong>
+<span id="future"></span></p>
+
+<p><strong>Total Profit:</strong>
+<span id="profit"></span></p>
+
+<p><strong>Inflation Adjusted Value:</strong>
+<span id="real"></span></p>
+
+</div>
+
+<h2>Frequently Asked Questions</h2>
+
+<details>
+<summary>What is Dollar Cost Averaging?</summary>
+<p>Dollar Cost Averaging is investing a fixed amount regularly regardless of market prices.</p>
+</details>
+
+<details>
+<summary>Why use DCA?</summary>
+<p>It encourages disciplined investing and reduces the impact of market volatility.</p>
+</details>
+
+</div>
+
+<footer>
+
+© 2026 Dollar Cost Averaging Calculator
+
+</footer>
+
+<script>
+
+function calculate(){
+
+let currency=document.getElementById("currency").value;
+
+let initial=parseFloat(document.getElementById("initial").value);
+
+let contribution=parseFloat(document.getElementById("monthly").value);
+
+let freq=parseInt(document.getElementById("frequency").value);
+
+let years=parseFloat(document.getElementById("years").value);
+
+let annualRate=parseFloat(document.getElementById("rate").value)/100;
+
+let increase=parseFloat(document.getElementById("increase").value)/100;
+
+let inflation=parseFloat(document.getElementById("inflation").value)/100;
+
+if(document.getElementById("dividend").checked)
+annualRate+=0.02;
+
+let rate=annualRate/freq;
+
+let periods=years*freq;
+
+let balance=initial;
+
+let invested=initial;
+
+let payment=contribution;
+
+for(let i=1;i<=periods;i++){
+
+balance*=1+rate;
+
+balance+=payment;
+
+invested+=payment;
+
+if(i%freq===0){
+
+payment*=1+increase;
+
+}
+
+}
+
+let profit=balance-invested;
+
+let real=balance/Math.pow(1+inflation,years);
+
+document.getElementById("invested").innerHTML=
+currency+invested.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById("future").innerHTML=
+currency+balance.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById("profit").innerHTML=
+currency+profit.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById("real").innerHTML=
+currency+real.toLocaleString(undefined,{minimumFractionDigits:2});
+
+}
+
+calculate();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speed Converter | km/h, mph, m/s, Knots, Mach & More</title>
+<meta name="description" content="Free online speed converter supporting metric, imperial, nautical, and scientific speed units.">
+<meta name="keywords" content="speed converter, km/h, mph, m/s, knots, mach">
+<meta name="robots" content="index,follow">
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0}
+.container{max-width:500px;margin:40px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.15)}
+h1{text-align:center}
+input,select,button{width:100%;padding:10px;margin:8px 0;font-size:16px}
+button{background:#0078d7;color:#fff;border:0;cursor:pointer}
+button:hover{background:#005fa3}
+#result{margin-top:15px;font-size:20px;font-weight:bold;text-align:center;color:green}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Speed Converter</h1>
+
+<input id="value" type="number" placeholder="Enter value">
+
+<select id="from"></select>
+
+<select id="to"></select>
+
+<button onclick="convert()">Convert</button>
+
+<div id="result">Result appears here</div>
+</div>
+
+<script>
+const factors={
+"mm/s":0.001,
+"cm/s":0.01,
+"dm/s":0.1,
+"m/s":1,
+"dam/s":10,
+"hm/s":100,
+"km/s":1000,
+"mm/min":0.001/60,
+"cm/min":0.01/60,
+"m/min":1/60,
+"km/min":1000/60,
+"km/h":1000/3600,
+"in/s":0.0254,
+"ft/s":0.3048,
+"yd/s":0.9144,
+"mi/s":1609.344,
+"mph":0.44704,
+"in/min":0.0254/60,
+"ft/min":0.3048/60,
+"yd/min":0.9144/60,
+"knot":0.514444,
+"kn":0.514444,
+"mach":340.29,
+"c":299792458,
+"furlong/day":201.168/86400,
+"furlong/fortnight":201.168/1209600,
+"league/h":4828.032/3600,
+"AU/day":149597870700/86400,
+"AU/year":149597870700/31557600,
+"ly/year":299792458
+};
+
+const from=document.getElementById("from");
+const to=document.getElementById("to");
+
+Object.keys(factors).forEach(u=>{
+from.add(new Option(u,u));
+to.add(new Option(u,u));
+});
+
+from.value="km/h";
+to.value="mph";
+
+function convert(){
+let v=parseFloat(document.getElementById("value").value);
+
+if(isNaN(v)){
+document.getElementById("result").innerHTML="Enter a valid number";
+return;
+}
+
+let r=v*factors[from.value]/factors[to.value];
+
+document.getElementById("result").innerHTML=
+`${v.toLocaleString()} ${from.value}<br>=<br><strong>${r.toLocaleString(undefined,{maximumFractionDigits:12})} ${to.value}</strong>`;
+}
+
+document.getElementById("value").addEventListener("input",convert);
+from.addEventListener("change",convert);
+to.addEventListener("change",convert);
+</script>
+
+</body>
+</html>

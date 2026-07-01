@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Power Unit Converter | Watts, Horsepower, BTU, VA, Refrigeration & More</title>
+
+<meta name="description" content="Free online Power Unit Converter. Convert between Watts, Kilowatts, Horsepower, BTU/hour, VA, Tons of Refrigeration and over 30 power units instantly.">
+
+<meta name="keywords" content="Power Converter, Watt Converter, Horsepower Converter, kW Converter, BTU Converter, VA Converter">
+
+<meta name="robots" content="index,follow">
+
+<link rel="canonical" href="https://www.example.com/power-unit-converter">
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f2f5f8;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#333;
+}
+
+.container{
+    max-width:800px;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+h1{
+    text-align:center;
+    color:#0b4d91;
+}
+
+.grid{
+    display:grid;
+    gap:15px;
+}
+
+input,select,button{
+    padding:12px;
+    font-size:16px;
+    width:100%;
+}
+
+button{
+    background:#0077cc;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#005fa3;
+}
+
+.result{
+    margin-top:20px;
+    font-size:24px;
+    font-weight:bold;
+    text-align:center;
+    color:green;
+}
+
+article{
+    margin-top:40px;
+    line-height:1.7;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table,th,td{
+    border:1px solid #ddd;
+}
+
+th,td{
+    padding:10px;
+    text-align:left;
+}
+
+footer{
+    margin-top:30px;
+    text-align:center;
+    color:#777;
+}
+</style>
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"WebApplication",
+ "name":"Power Unit Converter",
+ "applicationCategory":"UtilityApplication",
+ "operatingSystem":"All",
+ "description":"Convert between over 30 different power units."
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Power Unit Converter</h1>
+
+<div class="grid">
+
+<input
+type="number"
+id="value"
+placeholder="Enter Value">
+
+<select id="from"></select>
+
+<select id="to"></select>
+
+<button onclick="convertPower()">
+Convert
+</button>
+
+</div>
+
+<div
+class="result"
+id="result">
+Result
+</div>
+
+<article>
+
+<h2>About this Converter</h2>
+
+<p>
+This free online power converter converts between SI, electrical,
+mechanical, thermal and scientific power units. It is mobile friendly,
+SEO optimized and works entirely in your browser.
+</p>
+
+<h2>Supported Unit Categories</h2>
+
+<table>
+
+<tr>
+<th>Category</th>
+<th>Units</th>
+</tr>
+
+<tr>
+<td>SI</td>
+<td>pW, nW, µW, mW, W, kW, MW, GW, TW</td>
+</tr>
+
+<tr>
+<td>Horsepower</td>
+<td>Mechanical HP, Metric HP, Electric HP, Boiler HP, PS</td>
+</tr>
+
+<tr>
+<td>Electrical</td>
+<td>VA, kVA, MVA</td>
+</tr>
+
+<tr>
+<td>Heat</td>
+<td>BTU/hr, BTU/min, BTU/sec</td>
+</tr>
+
+<tr>
+<td>Mechanical</td>
+<td>Foot-pound/sec, Foot-pound/min, Newton-meter/sec</td>
+</tr>
+
+<tr>
+<td>Cooling</td>
+<td>Ton of Refrigeration</td>
+</tr>
+
+</table>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>What is a Watt?</h3>
+
+<p>
+A Watt is the SI unit of power equal to one Joule per second.
+</p>
+
+<h3>What is Horsepower?</h3>
+
+<p>
+Horsepower is commonly used to measure engine output.
+One mechanical horsepower equals approximately 745.7 Watts.
+</p>
+
+</article>
+
+<footer>
+
+© 2026 Power Unit Converter
+
+</footer>
+
+</div>
+
+<script>
+
+const units={
+
+"Picowatt (pW)":1e-12,
+"Nanowatt (nW)":1e-9,
+"Microwatt (µW)":1e-6,
+"Milliwatt (mW)":0.001,
+"Watt (W)":1,
+"Kilowatt (kW)":1000,
+"Megawatt (MW)":1000000,
+"Gigawatt (GW)":1000000000,
+"Terawatt (TW)":1000000000000,
+
+"Horsepower (Mechanical)":745.699872,
+"Horsepower (Metric)":735.49875,
+"Electric Horsepower":746,
+"Boiler Horsepower":9809.5,
+"PS":735.49875,
+
+"BTU/hour":0.29307107,
+"BTU/minute":17.5842642,
+"BTU/second":1055.05585,
+
+"Calorie/second":4.1868,
+"Kilocalorie/hour":1.163,
+"Kilocalorie/minute":69.78,
+
+"Foot-pound/second":1.35581795,
+"Foot-pound/minute":0.0225969658,
+
+"Joule/second":1,
+"Kilojoule/hour":0.277777778,
+
+"Erg/second":0.0000001,
+
+"Volt-Ampere (VA)":1,
+"Kilovolt-Ampere (kVA)":1000,
+"Megavolt-Ampere (MVA)":1000000,
+
+"Newton-meter/second":1,
+"Kilogram-force-meter/second":9.80665,
+
+"Poncelet":980.665,
+
+"Ton of Refrigeration":3516.85284,
+
+"Solar Luminosity":3.828e26
+
+};
+
+const from=document.getElementById("from");
+const to=document.getElementById("to");
+
+for(let unit in units){
+
+from.add(new Option(unit,unit));
+
+to.add(new Option(unit,unit));
+
+}
+
+from.selectedIndex=4;
+to.selectedIndex=5;
+
+function convertPower(){
+
+let value=parseFloat(document.getElementById("value").value);
+
+if(isNaN(value)){
+
+document.getElementById("result").innerHTML="Please enter a number.";
+
+return;
+
+}
+
+let watts=value*units[from.value];
+
+let answer=watts/units[to.value];
+
+document.getElementById("result").innerHTML=
+`${value.toLocaleString()} ${from.value}<br><br>=<br><br><strong>${answer.toLocaleString(undefined,{maximumFractionDigits:12})}</strong> ${to.value}`;
+
+document.title=`${value} ${from.value} to ${to.value} Converter`;
+
+}
+
+document.getElementById("value").addEventListener("input",convertPower);
+from.addEventListener("change",convertPower);
+to.addEventListener("change",convertPower);
+
+</script>
+
+</body>
+</html>

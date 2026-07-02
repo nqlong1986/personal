@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Force Unit Converter | Convert Newtons, Pounds-Force, Dynes, Kilogram-Force</title>
+
+<meta name="description" content="Free online force unit converter. Convert between Newton (N), Kilonewton (kN), Pound-force (lbf), Kilogram-force (kgf), Dyne, Ounce-force, Ton-force and more instantly.">
+
+<meta name="keywords" content="force converter,newton converter,pound force converter,lbf to newton,newton to lbf,kgf converter,dyne converter,force unit calculator">
+
+<meta name="robots" content="index, follow">
+<meta name="author" content="Personal Webpage">
+
+<link rel="canonical" href="https://www.example.com/force-unit-converter">
+
+<meta property="og:title" content="Force Unit Converter">
+<meta property="og:description" content="Convert between Newtons, Pounds-force, Kilogram-force, Dynes and more instantly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.example.com/force-unit-converter">
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"WebApplication",
+ "name":"Force Unit Converter",
+ "applicationCategory":"Calculator",
+ "operatingSystem":"Any",
+ "description":"Free online force unit conversion calculator."
+}
+</script>
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:40px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
+
+h1{
+    text-align:center;
+    color:#222;
+}
+
+p{
+    text-align:center;
+    color:#666;
+}
+
+.converter{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-top:25px;
+}
+
+input,select{
+    padding:12px;
+    font-size:18px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+.result{
+    margin-top:25px;
+    padding:20px;
+    background:#eef7ff;
+    border-radius:8px;
+    font-size:24px;
+    text-align:center;
+    font-weight:bold;
+    color:#0056b3;
+}
+
+footer{
+    margin-top:40px;
+    text-align:center;
+    color:#777;
+    font-size:14px;
+}
+
+@media(max-width:600px){
+body{
+padding:15px;
+}
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Force Unit Converter</h1>
+
+<p>
+Convert between Newtons, Kilonewtons, Pound-force, Kilogram-force, Dynes,
+Ounce-force and more instantly.
+</p>
+
+<div class="converter">
+
+<div>
+<label>Value</label>
+<input type="number" id="inputValue" value="1" step="any">
+</div>
+
+<div>
+<label>From</label>
+<select id="fromUnit">
+
+<option value="N">Newton (N)</option>
+<option value="kN">Kilonewton (kN)</option>
+<option value="MN">Meganewton (MN)</option>
+<option value="lbf">Pound-force (lbf)</option>
+<option value="ozf">Ounce-force (ozf)</option>
+<option value="kgf">Kilogram-force (kgf)</option>
+<option value="gf">Gram-force (gf)</option>
+<option value="dyn">Dyne (dyn)</option>
+<option value="tf">Ton-force (Metric)</option>
+
+</select>
+</div>
+
+<div>
+<label>To</label>
+
+<select id="toUnit">
+
+<option value="lbf">Pound-force (lbf)</option>
+<option value="N" selected>Newton (N)</option>
+<option value="kN">Kilonewton (kN)</option>
+<option value="MN">Meganewton (MN)</option>
+<option value="ozf">Ounce-force (ozf)</option>
+<option value="kgf">Kilogram-force (kgf)</option>
+<option value="gf">Gram-force (gf)</option>
+<option value="dyn">Dyne (dyn)</option>
+<option value="tf">Ton-force (Metric)</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="result" id="result">
+1 Newton = 0.224809 Pound-force
+</div>
+
+</div>
+
+<footer>
+© 2026 Force Unit Converter | Fast, Accurate & Free Online Calculator
+</footer>
+
+<script>
+
+const factors = {
+
+N:1,
+kN:1000,
+MN:1000000,
+lbf:4.4482216152605,
+ozf:0.27801385,
+kgf:9.80665,
+gf:0.00980665,
+dyn:0.00001,
+tf:9806.65
+
+};
+
+function convert(){
+
+let value=parseFloat(document.getElementById("inputValue").value);
+
+if(isNaN(value)){
+value=0;
+}
+
+let from=document.getElementById("fromUnit").value;
+let to=document.getElementById("toUnit").value;
+
+let newtons=value*factors[from];
+
+let result=newtons/factors[to];
+
+document.getElementById("result").innerHTML=
+`${value.toLocaleString()} ${from} = <br><br><strong>${result.toLocaleString(undefined,{maximumFractionDigits:10})} ${to}</strong>`;
+
+}
+
+document.getElementById("inputValue").addEventListener("input",convert);
+document.getElementById("fromUnit").addEventListener("change",convert);
+document.getElementById("toUnit").addEventListener("change",convert);
+
+convert();
+
+</script>
+
+<section style="max-width:700px;margin:40px auto;background:#fff;padding:30px;border-radius:12px;">
+<h2>About Force Units</h2>
+
+<p>
+Force measures the interaction that changes an object's motion. The SI unit of
+force is the <strong>Newton (N)</strong>. Other commonly used units include
+<strong>Pound-force (lbf)</strong>, <strong>Kilogram-force (kgf)</strong>,
+<strong>Dyne</strong>, and <strong>Kilonewton (kN)</strong>.
+</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>What is a Newton?</h3>
+<p>
+One Newton is the force required to accelerate a one-kilogram mass at one meter
+per second squared.
+</p>
+
+<h3>How many Newtons are in one Pound-force?</h3>
+<p>
+1 Pound-force = 4.448221615 Newtons.
+</p>
+
+<h3>How many Dynes are in one Newton?</h3>
+<p>
+1 Newton = 100,000 Dynes.
+</p>
+
+</section>
+
+</body>
+</html>

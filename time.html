@@ -1,274 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Free Time Zone Converter | Convert Time Between World Time Zones</title>
+  <title>Time Zone Converter | Convert Time Between Cities Easily</title>
 
-<meta name="description" content="Free online Time Zone Converter. Convert UTC, GMT, EST, PST, IST, CET, JST and other world time zones instantly with automatic daylight saving adjustments.">
+  <meta name="description" content="Free online time zone converter. Easily convert time between different cities and time zones worldwide. Simple, fast, and mobile-friendly tool." />
+  <meta name="keywords" content="time zone converter, convert time, world clock, time difference calculator, UTC converter, local time converter" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://example.com/time-zone-converter" />
 
-<meta name="keywords" content="time zone converter, world clock, UTC converter, GMT converter, EST to PST, IST converter">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f9;
+      color: #333;
+    }
 
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://yourdomain.com/time-zone-converter">
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-<meta property="og:title" content="Free Time Zone Converter">
-<meta property="og:description" content="Convert time between world time zones instantly.">
-<meta property="og:type" content="website">
+    main {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
-<style>
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-margin:0;
-background:#f4f4f4;
-color:#333;
-line-height:1.6;
-}
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
 
-.container{
-max-width:900px;
-margin:auto;
-background:#fff;
-padding:30px;
-}
+    button {
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+    }
 
-h1,h2,h3{
-color:#0d47a1;
-}
+    button:hover {
+      background: #3749b1;
+    }
 
-.converter{
-background:#eef5ff;
-padding:20px;
-border-radius:8px;
-margin:30px 0;
-}
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f0fe;
+      border-left: 5px solid #1e3a8a;
+    }
 
-label{
-display:block;
-margin-top:15px;
-font-weight:bold;
-}
-
-input,select,button{
-width:100%;
-padding:12px;
-margin-top:5px;
-font-size:16px;
-}
-
-button{
-background:#1565c0;
-color:white;
-border:none;
-cursor:pointer;
-margin-top:20px;
-}
-
-button:hover{
-background:#0d47a1;
-}
-
-.result{
-margin-top:20px;
-padding:15px;
-background:white;
-border:1px solid #ddd;
-font-size:18px;
-font-weight:bold;
-}
-
-footer{
-margin-top:40px;
-font-size:14px;
-color:#666;
-}
-
-</style>
-
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"WebApplication",
-"name":"Time Zone Converter",
-"description":"Convert time between different world time zones instantly.",
-"applicationCategory":"UtilityApplication"
-}
-</script>
-
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"FAQPage",
-"mainEntity":[
-{
-"@type":"Question",
-"name":"What is a time zone?",
-"acceptedAnswer":{
-"@type":"Answer",
-"text":"A time zone is a region that observes the same standard time."
-}
-},
-{
-"@type":"Question",
-"name":"Does this tool support Daylight Saving Time?",
-"acceptedAnswer":{
-"@type":"Answer",
-"text":"Yes. It uses the browser's built-in IANA time zone database."
-}
-},
-{
-"@type":"Question",
-"name":"Is this converter free?",
-"acceptedAnswer":{
-"@type":"Answer",
-"text":"Yes. It is completely free."
-}
-}
-]
-}
-</script>
-
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
+<header>
+  <h1>Time Zone Converter</h1>
+  <p>Convert time easily between global time zones</p>
+</header>
 
-<h1>Free Time Zone Converter</h1>
+<main>
+  <h2>Convert Time Zones</h2>
 
-<p>
-Convert time between popular world time zones in seconds. Whether you are planning meetings, international travel, online events, or remote work, this free converter helps you quickly calculate the correct local time.
-</p>
+  <label for="datetime">Select Date & Time:</label>
+  <input type="datetime-local" id="datetime" />
 
-<div class="converter">
+  <label for="fromZone">From Time Zone:</label>
+  <select id="fromZone">
+    <option value="UTC">UTC</option>
+    <option value="Europe/Copenhagen">Copenhagen</option>
+    <option value="America/New_York">New York</option>
+    <option value="Asia/Tokyo">Tokyo</option>
+    <option value="Asia/Dubai">Dubai</option>
+    <option value="Europe/London">London</option>
+  </select>
 
-<label>Date & Time</label>
-<input type="datetime-local" id="dt">
+  <label for="toZone">To Time Zone:</label>
+  <select id="toZone">
+    <option value="UTC">UTC</option>
+    <option value="Europe/Copenhagen">Copenhagen</option>
+    <option value="America/New_York">New York</option>
+    <option value="Asia/Tokyo">Tokyo</option>
+    <option value="Asia/Dubai">Dubai</option>
+    <option value="Europe/London">London</option>
+  </select>
 
-<label>From Time Zone</label>
-<select id="from"></select>
+  <button onclick="convertTime()">Convert Time</button>
 
-<label>To Time Zone</label>
-<select id="to"></select>
-
-<button onclick="convertTime()">Convert Time</button>
-
-<div class="result" id="result">
-Your converted time will appear here.
-</div>
-
-</div>
-
-<h2>Popular Time Zone Conversions</h2>
-
-<ul>
-<li>UTC to IST</li>
-<li>UTC to EST</li>
-<li>UTC to PST</li>
-<li>GMT to EST</li>
-<li>London to New York</li>
-<li>New York to Tokyo</li>
-<li>Los Angeles to Sydney</li>
-<li>Dubai to Singapore</li>
-</ul>
-
-<h2>Why Use This Time Zone Converter?</h2>
-
-<p>
-Our converter uses your browser's internationalization engine to calculate accurate time conversions, including Daylight Saving Time where applicable. It works on desktop and mobile devices without requiring any installation.
-</p>
-
-<h2>Frequently Asked Questions</h2>
-
-<h3>What is a time zone?</h3>
-<p>A time zone is a geographic region that observes the same standard time.</p>
-
-<h3>Does this converter adjust for daylight saving?</h3>
-<p>Yes. Supported browsers automatically apply Daylight Saving Time rules.</p>
-
-<h3>Can I convert UTC to local time?</h3>
-<p>Yes. Simply choose UTC as the source and your preferred destination time zone.</p>
-
-<h3>Is this converter free?</h3>
-<p>Yes. It is completely free to use.</p>
+  <div id="result" class="result" style="display:none;"></div>
+</main>
 
 <footer>
-
-<p>
-Popular searches: Time Zone Converter, UTC Converter, GMT Converter, World Clock, EST to PST, IST Converter, UTC to IST, Time Difference Calculator.
-</p>
-
+  &copy; 2026 Time Zone Converter. All rights reserved.
 </footer>
 
-</div>
-
 <script>
+function convertTime() {
+  const input = document.getElementById("datetime").value;
+  const fromZone = document.getElementById("fromZone").value;
+  const toZone = document.getElementById("toZone").value;
+  const resultBox = document.getElementById("result");
 
-const zones=[
-"UTC",
-"Europe/London",
-"Europe/Paris",
-"Europe/Berlin",
-"Asia/Dubai",
-"Asia/Kolkata",
-"Asia/Singapore",
-"Asia/Tokyo",
-"Australia/Sydney",
-"America/New_York",
-"America/Chicago",
-"America/Denver",
-"America/Los_Angeles"
-];
+  if (!input) {
+    alert("Please select a date and time.");
+    return;
+  }
 
-const from=document.getElementById("from");
-const to=document.getElementById("to");
+  const date = new Date(input);
 
-zones.forEach(z=>{
-from.innerHTML+=`<option value="${z}">${z}</option>`;
-to.innerHTML+=`<option value="${z}">${z}</option>`;
-});
+  // Convert from selected timezone to UTC first
+  const utcTime = new Date(date.toLocaleString("en-US", { timeZone: fromZone }));
 
-from.value="UTC";
-to.value=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // Then convert UTC to target timezone
+  const converted = utcTime.toLocaleString("en-US", { timeZone: toZone });
 
-function convertTime(){
-
-const input=document.getElementById("dt").value;
-
-if(!input){
-alert("Please select date and time.");
-return;
+  resultBox.style.display = "block";
+  resultBox.innerHTML = `
+    <strong>Converted Time:</strong><br>
+    ${converted}<br><br>
+    <small>${fromZone} → ${toZone}</small>
+  `;
 }
-
-const sourceZone=from.value;
-const targetZone=to.value;
-
-const date=new Date(input);
-
-const sourceOffset=getOffset(sourceZone,date);
-const utc=date.getTime()-sourceOffset;
-
-const targetDate=new Date(utc+getOffset(targetZone,new Date(utc)));
-
-document.getElementById("result").innerHTML=targetDate.toLocaleString("en-US",{
-timeZone:targetZone,
-dateStyle:"full",
-timeStyle:"long"
-});
-
-}
-
-function getOffset(zone,date){
-
-const tzDate=new Date(date.toLocaleString("en-US",{timeZone:zone}));
-
-return date.getTime()-tzDate.getTime();
-
-}
-
 </script>
 
 </body>
 </html>
-

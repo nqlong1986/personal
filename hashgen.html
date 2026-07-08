@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online hash generator supporting MD5, SHA-1, SHA-256, SHA-384, and SHA-512. Generate secure hashes instantly in your browser.">
+    <meta name="keywords" content="hash generator, SHA256 generator, SHA512 generator, SHA1 generator, MD5 generator, online hash tool, checksum generator">
+    <meta name="author" content="Personal Webpage">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free Online Hash Generator">
+    <meta property="og:description" content="Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes instantly.">
+    <meta property="og:type" content="website">
+
+    <title>Free Online Hash Generator | MD5, SHA-1, SHA-256, SHA-512</title>
+
+    <style>
+        body{
+            font-family:Arial,Helvetica,sans-serif;
+            background:#f5f7fa;
+            margin:0;
+            padding:40px;
+        }
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:#fff;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+        h1{
+            text-align:center;
+            color:#333;
+        }
+        textarea{
+            width:100%;
+            height:160px;
+            padding:12px;
+            font-size:16px;
+            resize:vertical;
+        }
+        select,button{
+            margin-top:15px;
+            padding:12px;
+            font-size:16px;
+        }
+        button{
+            cursor:pointer;
+            background:#007bff;
+            color:#fff;
+            border:none;
+            border-radius:5px;
+        }
+        button:hover{
+            background:#0056b3;
+        }
+        .result{
+            margin-top:20px;
+        }
+        input{
+            width:100%;
+            padding:12px;
+            font-size:15px;
+        }
+        .copy{
+            margin-top:10px;
+            background:#28a745;
+        }
+        footer{
+            margin-top:40px;
+            text-align:center;
+            color:#666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Free Online Hash Generator</h1>
+
+<p>
+Generate secure hashes directly inside your browser. Supports
+<strong>MD5</strong>,
+<strong>SHA-1</strong>,
+<strong>SHA-256</strong>,
+<strong>SHA-384</strong>, and
+<strong>SHA-512</strong>.
+</p>
+
+<textarea id="text" placeholder="Enter your text here..."></textarea>
+
+<br>
+
+<select id="algorithm">
+    <option value="MD5">MD5</option>
+    <option value="SHA-1">SHA-1</option>
+    <option value="SHA-256" selected>SHA-256</option>
+    <option value="SHA-384">SHA-384</option>
+    <option value="SHA-512">SHA-512</option>
+</select>
+
+<button onclick="generateHash()">Generate Hash</button>
+
+<div class="result">
+    <label><strong>Generated Hash:</strong></label>
+    <input type="text" id="output" readonly>
+    <button class="copy" onclick="copyHash()">Copy Hash</button>
+</div>
+
+<section style="margin-top:40px;">
+<h2>What is a Hash Generator?</h2>
+<p>
+A hash generator converts text into a fixed-length encrypted string known as a hash.
+Hashes are commonly used for password verification, file integrity checks, digital signatures,
+and cybersecurity applications.
+</p>
+
+<h2>Supported Algorithms</h2>
+<ul>
+<li>MD5</li>
+<li>SHA-1</li>
+<li>SHA-256</li>
+<li>SHA-384</li>
+<li>SHA-512</li>
+</ul>
+</section>
+
+<footer>
+© 2026 Free Online Hash Generator
+</footer>
+
+</div>
+
+<!-- CryptoJS Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+<script>
+function generateHash(){
+
+    let text=document.getElementById("text").value;
+    let algo=document.getElementById("algorithm").value;
+
+    let hash="";
+
+    switch(algo){
+
+        case "MD5":
+            hash=CryptoJS.MD5(text).toString();
+            break;
+
+        case "SHA-1":
+            hash=CryptoJS.SHA1(text).toString();
+            break;
+
+        case "SHA-256":
+            hash=CryptoJS.SHA256(text).toString();
+            break;
+
+        case "SHA-384":
+            hash=CryptoJS.SHA384(text).toString();
+            break;
+
+        case "SHA-512":
+            hash=CryptoJS.SHA512(text).toString();
+            break;
+    }
+
+    document.getElementById("output").value=hash;
+}
+
+function copyHash(){
+
+    let output=document.getElementById("output");
+
+    output.select();
+    output.setSelectionRange(0,99999);
+
+    navigator.clipboard.writeText(output.value);
+
+    alert("Hash copied!");
+}
+</script>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Free Online Hash Generator",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"All",
+  "description":"Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes online for free.",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
+  }
+}
+</script>
+
+</body>
+</html>

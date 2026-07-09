@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Favicon Generator | Create ICO, PNG Favicons Online</title>
+
+<meta name="description" content="Generate favicon.ico and PNG favicon files online for your website. Free favicon generator supporting multiple sizes including 16x16, 32x32, 48x48, 180x180, 192x192 and 512x512.">
+
+<meta name="keywords" content="favicon generator, favicon creator, favicon.ico, png favicon, website icon, logo converter">
+
+<meta name="robots" content="index,follow">
+
+<meta property="og:title" content="Free Favicon Generator">
+<meta property="og:description" content="Create website favicons instantly in multiple sizes.">
+<meta property="og:type" content="website">
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+margin:0;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:#fff;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+h1{
+text-align:center;
+color:#333;
+}
+
+p{
+text-align:center;
+color:#666;
+}
+
+input{
+margin:20px auto;
+display:block;
+}
+
+canvas{
+display:block;
+margin:20px auto;
+border:1px solid #ddd;
+max-width:256px;
+}
+
+button{
+background:#007BFF;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.downloads{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-top:30px;
+}
+
+.downloads a{
+padding:10px 15px;
+background:#28a745;
+color:#fff;
+text-decoration:none;
+border-radius:5px;
+}
+
+.downloads a:hover{
+background:#1e7e34;
+}
+
+footer{
+margin-top:40px;
+text-align:center;
+color:#888;
+font-size:14px;
+}
+</style>
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"WebApplication",
+"name":"Favicon Generator",
+"applicationCategory":"DesignApplication",
+"operatingSystem":"Any",
+"description":"Online favicon generator supporting multiple favicon sizes."
+}
+</script>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Free Favicon Generator</h1>
+
+<p>
+Upload your logo or image and generate favicon PNG files instantly.
+</p>
+
+<input type="file" id="upload" accept="image/*">
+
+<canvas id="preview" width="256" height="256"></canvas>
+
+<div style="text-align:center;">
+<button onclick="generateFavicons()">Generate Favicons</button>
+</div>
+
+<div class="downloads" id="downloads"></div>
+
+</div>
+
+<footer>
+© 2026 Free Favicon Generator
+</footer>
+
+<script>
+
+const upload=document.getElementById("upload");
+const canvas=document.getElementById("preview");
+const ctx=canvas.getContext("2d");
+
+let image=new Image();
+
+upload.addEventListener("change",function(e){
+
+const file=e.target.files[0];
+
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+image.onload=function(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.drawImage(image,0,0,256,256);
+
+}
+
+image.src=event.target.result;
+
+}
+
+reader.readAsDataURL(file);
+
+});
+
+function generateFavicons(){
+
+if(!image.src){
+
+alert("Please upload an image.");
+
+return;
+
+}
+
+const sizes=[16,32,48,64,96,128,180,192,256,512];
+
+const downloads=document.getElementById("downloads");
+
+downloads.innerHTML="";
+
+sizes.forEach(size=>{
+
+const c=document.createElement("canvas");
+
+c.width=size;
+
+c.height=size;
+
+const context=c.getContext("2d");
+
+context.drawImage(image,0,0,size,size);
+
+const link=document.createElement("a");
+
+link.download=`favicon-${size}x${size}.png`;
+
+link.href=c.toDataURL("image/png");
+
+link.innerHTML=`Download ${size}×${size}`;
+
+downloads.appendChild(link);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

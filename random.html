@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>Random Number Generator | Generate a Random Number Within a Range</title>
+    <meta name="description" content="Free online Random Number Generator. Enter a minimum and maximum value to instantly generate a random number within your chosen range. Fast, simple, and mobile-friendly.">
+    <meta name="keywords" content="random number generator, random number, number picker, RNG, randomizer, online random number tool">
+    <meta name="author" content="Personal Webpage">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Random Number Generator">
+    <meta property="og:description" content="Generate a random number between any minimum and maximum value instantly.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .error {
+            color: red;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .content {
+            margin-top: 30px;
+            text-align: left;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .content h2 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Random Number Generator</h1>
+
+    <p>Enter your minimum and maximum numbers to generate a random number instantly.</p>
+
+    <input type="number" id="min" placeholder="Minimum Number">
+
+    <input type="number" id="max" placeholder="Maximum Number">
+
+    <button onclick="generateRandom()">Generate Random Number</button>
+
+    <div id="result">-</div>
+
+    <div id="error" class="error"></div>
+
+    <div class="content">
+        <h2>About This Random Number Generator</h2>
+
+        <p>
+            This free online random number generator lets you quickly generate a random
+            integer between any minimum and maximum value. Simply enter your desired range,
+            click the button, and receive a random number instantly.
+        </p>
+
+        <p>
+            This tool is useful for giveaways, classroom activities, games, lucky draws,
+            simulations, decision making, and many other situations where you need a fair
+            random selection.
+        </p>
+    </div>
+
+</div>
+
+<script>
+function generateRandom() {
+
+    const min = parseInt(document.getElementById("min").value);
+    const max = parseInt(document.getElementById("max").value);
+
+    const result = document.getElementById("result");
+    const error = document.getElementById("error");
+
+    error.textContent = "";
+
+    if (isNaN(min) || isNaN(max)) {
+        result.textContent = "-";
+        error.textContent = "Please enter both minimum and maximum numbers.";
+        return;
+    }
+
+    if (min > max) {
+        result.textContent = "-";
+        error.textContent = "Minimum number cannot be greater than maximum number.";
+        return;
+    }
+
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    result.textContent = randomNumber;
+}
+</script>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Random Number Generator",
+  "applicationCategory":"UtilityApplication",
+  "operatingSystem":"All",
+  "description":"Generate a random number between any minimum and maximum value online for free."
+}
+</script>
+
+</body>
+</html>

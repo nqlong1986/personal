@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <title>Free Base64 Encoder & Decoder Online | Encode & Decode Text Instantly</title>
+    <meta name="description" content="Free online Base64 Encoder and Decoder tool. Encode plain text into Base64 or decode Base64 back into readable text instantly. Fast, secure, and works completely in your browser.">
+    <meta name="keywords" content="Base64 Encoder, Base64 Decoder, Encode Base64, Decode Base64, Online Base64 Tool, Free Base64 Converter">
+    <meta name="author" content="Your Website Name">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free Base64 Encoder & Decoder Online">
+    <meta property="og:description" content="Encode and decode Base64 instantly using this free online tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/base64-encoder-decoder">
+    <meta property="og:image" content="https://example.com/base64-tool.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Base64 Encoder & Decoder">
+    <meta name="twitter:description" content="Fast online Base64 encoder and decoder.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://example.com/base64-encoder-decoder">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebApplication",
+      "name":"Base64 Encoder & Decoder",
+      "url":"https://example.com/base64-encoder-decoder",
+      "applicationCategory":"DeveloperApplication",
+      "operatingSystem":"Any",
+      "description":"Free online Base64 encoder and decoder tool."
+    }
+    </script>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            color:#333;
+            padding:30px;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:#fff;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,.1);
+        }
+
+        h1{
+            text-align:center;
+            color:#0d6efd;
+            margin-bottom:10px;
+        }
+
+        p{
+            text-align:center;
+            margin-bottom:20px;
+            color:#666;
+        }
+
+        textarea{
+            width:100%;
+            height:180px;
+            padding:15px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            resize:vertical;
+            font-size:16px;
+            margin-bottom:20px;
+        }
+
+        .buttons{
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+            justify-content:center;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:12px 20px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:15px;
+            color:#fff;
+            transition:.3s;
+        }
+
+        .encode{
+            background:#198754;
+        }
+
+        .decode{
+            background:#0d6efd;
+        }
+
+        .copy{
+            background:#6c757d;
+        }
+
+        .clear{
+            background:#dc3545;
+        }
+
+        button:hover{
+            opacity:.9;
+            transform:translateY(-2px);
+        }
+
+        h2{
+            margin:25px 0 10px;
+        }
+
+        footer{
+            text-align:center;
+            margin-top:40px;
+            color:#777;
+            font-size:14px;
+        }
+
+        @media(max-width:600px){
+            button{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Free Base64 Encoder & Decoder</h1>
+
+<p>
+Encode plain text into Base64 or decode Base64 back into readable text instantly.
+Everything runs locally in your browser for maximum privacy.
+</p>
+
+<h2>Input</h2>
+
+<textarea id="input" placeholder="Enter text or Base64 here..."></textarea>
+
+<div class="buttons">
+    <button class="encode" onclick="encodeBase64()">Encode</button>
+    <button class="decode" onclick="decodeBase64()">Decode</button>
+    <button class="copy" onclick="copyOutput()">Copy Output</button>
+    <button class="clear" onclick="clearAll()">Clear</button>
+</div>
+
+<h2>Output</h2>
+
+<textarea id="output" readonly placeholder="Result will appear here..."></textarea>
+
+<section>
+
+<h2>About Base64 Encoding</h2>
+
+<p style="text-align:left;">
+Base64 is a binary-to-text encoding scheme commonly used to transmit binary data over text-based systems.
+Developers use Base64 for email attachments, API authentication, JSON data, XML, JWT tokens,
+images, and many other applications.
+</p>
+
+<h2>Features</h2>
+
+<ul style="padding-left:20px;line-height:1.8;">
+<li>100% Free</li>
+<li>No Upload Required</li>
+<li>Works Offline</li>
+<li>Instant Encoding & Decoding</li>
+<li>Privacy Friendly</li>
+<li>Mobile Responsive</li>
+</ul>
+
+</section>
+
+<footer>
+© 2026 Base64 Encoder & Decoder. All Rights Reserved.
+</footer>
+
+</div>
+
+<script>
+
+function encodeBase64(){
+
+    const input=document.getElementById("input").value;
+
+    try{
+
+        const encoded=btoa(unescape(encodeURIComponent(input)));
+
+        document.getElementById("output").value=encoded;
+
+    }catch(e){
+
+        alert("Unable to encode the provided text.");
+
+    }
+
+}
+
+function decodeBase64(){
+
+    const input=document.getElementById("input").value;
+
+    try{
+
+        const decoded=decodeURIComponent(escape(atob(input)));
+
+        document.getElementById("output").value=decoded;
+
+    }catch(e){
+
+        alert("Invalid Base64 string.");
+
+    }
+
+}
+
+function copyOutput(){
+
+    const output=document.getElementById("output");
+
+    output.select();
+
+    output.setSelectionRange(0,999999);
+
+    navigator.clipboard.writeText(output.value);
+
+    alert("Output copied successfully!");
+
+}
+
+function clearAll(){
+
+    document.getElementById("input").value="";
+
+    document.getElementById("output").value="";
+
+}
+
+</script>
+
+</body>
+</html>

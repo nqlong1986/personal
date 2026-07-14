@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Personal Loan Calculator | Free EMI & Loan Payment Calculator</title>
+<meta name="description" content="Free Personal Loan Calculator to estimate monthly EMI, total interest, and total repayment. Calculate your loan payments instantly with our SEO-friendly online calculator.">
+<meta name="keywords" content="personal loan calculator, EMI calculator, loan calculator, monthly payment calculator, interest calculator">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Your Website">
+
+<link rel="canonical" href="https://www.yourwebsite.com/personal-loan-calculator">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Free Personal Loan Calculator">
+<meta property="og:description" content="Calculate your monthly loan payment, total interest, and repayment instantly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.yourwebsite.com/personal-loan-calculator">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "name":"Personal Loan Calculator",
+      "applicationCategory":"FinanceApplication",
+      "operatingSystem":"Any",
+      "description":"Free online personal loan calculator to calculate monthly payments, interest and total repayment."
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {
+          "@type":"Question",
+          "name":"What is a personal loan calculator?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"A personal loan calculator estimates your monthly payment, total interest, and total repayment using the loan amount, interest rate, and loan term."
+          }
+        },
+        {
+          "@type":"Question",
+          "name":"Is this calculator free?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"Yes. You can use this calculator as many times as you like at no cost."
+          }
+        },
+        {
+          "@type":"Question",
+          "name":"Does using this calculator affect my credit score?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"No. Using a loan calculator does not affect your credit score because it does not perform a credit inquiry."
+          }
+        },
+        {
+          "@type":"Question",
+          "name":"How accurate are the results?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"Results are estimates based on the values you enter. Actual loan payments may vary depending on lender fees and loan terms."
+          }
+        },
+        {
+          "@type":"Question",
+          "name":"Can I compare different loan offers?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"Yes. You can enter different loan amounts, interest rates, and repayment periods to compare estimated monthly payments and total costs."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+body{
+    background:#f4f7fb;
+    color:#333;
+    line-height:1.6;
+}
+.container{
+    max-width:700px;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+h1{
+    color:#0066cc;
+    margin-bottom:10px;
+}
+p{
+    margin-bottom:20px;
+}
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+button{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    border:none;
+    background:#0066cc;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    border-radius:5px;
+}
+button:hover{
+    background:#004fa3;
+}
+.result{
+    margin-top:25px;
+    background:#eef7ff;
+    padding:20px;
+    border-radius:8px;
+}
+.result h2{
+    color:#0066cc;
+}
+.result p{
+    margin:10px 0;
+    font-size:18px;
+}
+.info{
+    margin-top:40px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+table th,table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+table th{
+    background:#0066cc;
+    color:#fff;
+}
+@media(max-width:600px){
+    .container{
+        margin:15px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Personal Loan Calculator</h1>
+
+<p>
+Use this free Personal Loan Calculator to estimate your monthly loan payment (EMI),
+total interest payable, and total repayment amount.
+Simply enter your loan amount, annual interest rate, and loan term.
+</p>
+
+<label>Loan Amount ($)</label>
+<input type="number" id="loanAmount" placeholder="e.g. 20000">
+
+<label>Annual Interest Rate (%)</label>
+<input type="number" id="interestRate" step="0.01" placeholder="e.g. 8.5">
+
+<label>Loan Term (Years)</label>
+<input type="number" id="loanYears" placeholder="e.g. 5">
+
+<button onclick="calculateLoan()">Calculate Loan</button>
+
+<div class="result" id="result" style="display:none;">
+
+<h2>Loan Summary</h2>
+
+<p><strong>Monthly Payment:</strong> <span id="monthly"></span></p>
+
+<p><strong>Total Interest:</strong> <span id="interest"></span></p>
+
+<p><strong>Total Payment:</strong> <span id="total"></span></p>
+
+</div>
+
+<div class="info">
+
+<h2>How Does a Personal Loan Calculator Work?</h2>
+
+<p>
+A personal loan calculator uses the standard loan amortization formula to estimate your
+monthly payment based on the loan amount, interest rate, and repayment period.
+This helps borrowers compare loans and plan their monthly budget before applying.
+</p>
+
+<h2>Formula Used</h2>
+
+<p>
+EMI = P × r × (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> − 1)
+</p>
+
+<table>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>P</td>
+<td>Loan Amount</td>
+</tr>
+<tr>
+<td>r</td>
+<td>Monthly Interest Rate</td>
+</tr>
+<tr>
+<td>n</td>
+<td>Total Monthly Payments</td>
+</tr>
+</table>
+
+<h2>Benefits of Using This Calculator</h2>
+<hr>
+
+<section id="faq">
+    <h2>Frequently Asked Questions (FAQs)</h2>
+
+    <h3>1. What is a personal loan calculator?</h3>
+    <p>
+        A personal loan calculator is an online tool that estimates your monthly payment (EMI),
+        total interest, and total repayment amount based on the loan amount, interest rate,
+        and loan term.
+    </p>
+
+    <h3>2. How is the monthly payment calculated?</h3>
+    <p>
+        Monthly payments are calculated using the standard loan amortization formula, which
+        considers the principal amount, annual interest rate, and repayment period.
+    </p>
+
+    <h3>3. Is this calculator free to use?</h3>
+    <p>
+        Yes. This personal loan calculator is completely free and can be used as many times as you like.
+    </p>
+
+    <h3>4. Does this calculator affect my credit score?</h3>
+    <p>
+        No. Using this calculator is purely for estimation purposes and has no impact on your
+        credit score.
+    </p>
+
+    <h3>5. Are the results accurate?</h3>
+    <p>
+        The calculator provides estimates based on the information you enter. Your lender may
+        calculate payments differently depending on fees, insurance, taxes, or other charges.
+    </p>
+
+    <h3>6. Can I calculate loans with different interest rates?</h3>
+    <p>
+        Yes. Simply change the annual interest rate and recalculate to compare different loan offers.
+    </p>
+
+    <h3>7. Can I use this calculator for auto or home loans?</h3>
+    <p>
+        Yes. While designed for personal loans, the same formula can estimate payments for many
+        fixed-rate installment loans.
+    </p>
+
+    <h3>8. What information do I need?</h3>
+    <p>
+        You only need three values:
+    </p>
+    <ul>
+        <li>Loan amount</li>
+        <li>Annual interest rate</li>
+        <li>Loan term (years)</li>
+    </ul>
+</section>
+
+  
+<ul>
+<li>Instant EMI calculation</li>
+<li>Know total repayment before borrowing</li>
+<li>Compare different loan options</li>
+<li>100% free and mobile friendly</li>
+<li>SEO optimized calculator page</li>
+</ul>
+
+</div>
+
+</div>
+
+<script>
+function calculateLoan(){
+
+let principal = parseFloat(document.getElementById("loanAmount").value);
+let annualRate = parseFloat(document.getElementById("interestRate").value);
+let years = parseFloat(document.getElementById("loanYears").value);
+
+if(isNaN(principal) || isNaN(annualRate) || isNaN(years)){
+    alert("Please enter valid values.");
+    return;
+}
+
+let monthlyRate = annualRate / 100 / 12;
+let payments = years * 12;
+
+let monthlyPayment;
+
+if(monthlyRate === 0){
+    monthlyPayment = principal / payments;
+}else{
+    monthlyPayment =
+    principal *
+    monthlyRate *
+    Math.pow(1 + monthlyRate, payments) /
+    (Math.pow(1 + monthlyRate, payments) - 1);
+}
+
+let totalPayment = monthlyPayment * payments;
+let totalInterest = totalPayment - principal;
+
+document.getElementById("monthly").innerHTML =
+"$" + monthlyPayment.toFixed(2);
+
+document.getElementById("interest").innerHTML =
+"$" + totalInterest.toFixed(2);
+
+document.getElementById("total").innerHTML =
+"$" + totalPayment.toFixed(2);
+
+document.getElementById("result").style.display="block";
+
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inflation Calculator | Calculate Buying Power & Future Value</title>
+<meta name="description" content="Free Inflation Calculator to estimate the purchasing power of money over time. Calculate inflation-adjusted values, future prices, and percentage changes instantly.">
+<meta name="keywords" content="inflation calculator, inflation rate calculator, purchasing power calculator, CPI calculator, future value calculator">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Personal Webpage">
+
+<link rel="canonical" href="https://www.example.com/inflation-calculator">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Free Inflation Calculator">
+<meta property="og:description" content="Calculate inflation-adjusted values and purchasing power in seconds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.example.com/inflation-calculator">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Inflation Calculator">
+<meta name="twitter:description" content="Estimate inflation, purchasing power, and future value quickly.">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Inflation Calculator",
+  "applicationCategory":"FinanceApplication",
+  "operatingSystem":"Any",
+  "description":"Calculate inflation-adjusted values using annual inflation rates.",
+  "url":"https://www.example.com/inflation-calculator"
+}
+</script>
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fa;
+    margin:0;
+    padding:40px 15px;
+}
+.container{
+    max-width:700px;
+    margin:auto;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+h1{
+    text-align:center;
+    color:#1a3d6d;
+}
+p{
+    color:#555;
+}
+label{
+    display:block;
+    margin-top:18px;
+    font-weight:bold;
+}
+input{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-top:5px;
+    box-sizing:border-box;
+}
+button{
+    margin-top:25px;
+    width:100%;
+    padding:14px;
+    border:none;
+    background:#1565c0;
+    color:#fff;
+    font-size:17px;
+    border-radius:8px;
+    cursor:pointer;
+}
+button:hover{
+    background:#0d47a1;
+}
+.result{
+    margin-top:25px;
+    background:#eef7ff;
+    border-left:5px solid #1565c0;
+    padding:18px;
+    border-radius:8px;
+    display:none;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+table th, table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+table th{
+    background:#1565c0;
+    color:white;
+}
+footer{
+    text-align:center;
+    color:#777;
+    margin-top:30px;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Inflation Calculator</h1>
+
+<p>
+Estimate how inflation changes the purchasing power of money over time.
+Enter an amount, the annual inflation rate, and the number of years.
+</p>
+
+<label>Current Amount ($)</label>
+<input type="number" id="amount" placeholder="1000">
+
+<label>Annual Inflation Rate (%)</label>
+<input type="number" id="rate" step="0.01" placeholder="3">
+
+<label>Number of Years</label>
+<input type="number" id="years" placeholder="10">
+
+<button onclick="calculateInflation()">Calculate Inflation</button>
+
+<div class="result" id="result"></div>
+
+<table id="breakdown" style="display:none;">
+<thead>
+<tr>
+<th>Year</th>
+<th>Inflation Adjusted Value</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<section style="margin-top:40px;">
+<h2>What is Inflation?</h2>
+
+<p>
+Inflation is the gradual increase in prices over time, reducing the purchasing
+power of money. For example, if inflation averages 3% annually, an item costing
+$100 today may cost about $134 after 10 years.
+</p>
+
+<h2>Inflation Formula</h2>
+
+<p><strong>Future Value = Present Value × (1 + Inflation Rate)<sup>Years</sup></strong></p>
+
+<h2>How to Use This Calculator</h2>
+
+<ol>
+<li>Enter your current amount.</li>
+<li>Input the annual inflation rate.</li>
+<li>Enter the number of years.</li>
+<li>Click Calculate.</li>
+</ol>
+
+</section>
+
+<footer>
+© 2026 Inflation Calculator | Free Online Financial Tool
+</footer>
+
+</div>
+
+<script>
+function calculateInflation(){
+
+let amount=parseFloat(document.getElementById("amount").value);
+let rate=parseFloat(document.getElementById("rate").value)/100;
+let years=parseInt(document.getElementById("years").value);
+
+if(isNaN(amount)||isNaN(rate)||isNaN(years)){
+    alert("Please complete all fields.");
+    return;
+}
+
+let future=amount*Math.pow((1+rate),years);
+let increase=future-amount;
+
+document.getElementById("result").style.display="block";
+document.getElementById("result").innerHTML=
+`
+<h2>Results</h2>
+
+<p><strong>Current Amount:</strong> $${amount.toFixed(2)}</p>
+
+<p><strong>Inflation Adjusted Value:</strong> $${future.toFixed(2)}</p>
+
+<p><strong>Total Increase:</strong> $${increase.toFixed(2)}</p>
+
+<p><strong>Increase Percentage:</strong> ${((future/amount-1)*100).toFixed(2)}%</p>
+`;
+
+let tbody=document.querySelector("#breakdown tbody");
+tbody.innerHTML="";
+
+for(let i=1;i<=years;i++){
+
+let value=amount*Math.pow((1+rate),i);
+
+tbody.innerHTML+=`
+<tr>
+<td>${i}</td>
+<td>$${value.toFixed(2)}</td>
+</tr>
+`;
+
+}
+
+document.getElementById("breakdown").style.display="table";
+
+}
+</script>
+
+</body>
+</html>

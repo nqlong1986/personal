@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <title>Home Loan Calculator | Free Mortgage EMI Calculator</title>
+    <meta name="description" content="Calculate your home loan EMI, monthly mortgage payment, total interest, and total repayment instantly with our free Home Loan Calculator.">
+    <meta name="keywords" content="home loan calculator, mortgage calculator, EMI calculator, housing loan calculator, monthly payment calculator">
+    <meta name="author" content="Personal Webpage">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.example.com/home-loan-calculator">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Home Loan Calculator">
+    <meta property="og:description" content="Free online home loan EMI calculator with instant results.">
+    <meta property="og:type" content="website">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebApplication",
+      "name":"Home Loan Calculator",
+      "applicationCategory":"FinanceApplication",
+      "operatingSystem":"All",
+      "description":"Free online calculator for estimating home loan monthly payments, total interest and total repayment."
+    }
+    </script>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            padding:40px 15px;
+            color:#333;
+        }
+
+        .container{
+            max-width:750px;
+            margin:auto;
+            background:#fff;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 5px 20px rgba(0,0,0,.12);
+        }
+
+        h1{
+            text-align:center;
+            color:#0056b3;
+            margin-bottom:10px;
+        }
+
+        .intro{
+            text-align:center;
+            margin-bottom:30px;
+            color:#666;
+            line-height:1.6;
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:bold;
+        }
+
+        input[type=number]{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            font-size:16px;
+        }
+
+        button{
+            width:100%;
+            background:#007bff;
+            color:#fff;
+            border:none;
+            padding:14px;
+            font-size:18px;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#0056b3;
+        }
+
+        .results{
+            margin-top:30px;
+            display:none;
+            background:#eef6ff;
+            padding:20px;
+            border-radius:8px;
+        }
+
+        .results h2{
+            margin-bottom:15px;
+            color:#0056b3;
+        }
+
+        .result-item{
+            display:flex;
+            justify-content:space-between;
+            margin:12px 0;
+            border-bottom:1px solid #ddd;
+            padding-bottom:8px;
+        }
+
+        .seo-content{
+            margin-top:40px;
+            line-height:1.8;
+        }
+
+        .seo-content h2{
+            margin-bottom:15px;
+            color:#0056b3;
+        }
+
+        @media(max-width:600px){
+            .container{
+                padding:20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Home Loan Calculator</h1>
+
+    <p class="intro">
+        Use this free Home Loan Calculator to estimate your monthly mortgage payment,
+        total interest payable, and total repayment amount.
+    </p>
+
+    <div class="form-group">
+        <label>Loan Amount ($)</label>
+        <input type="number" id="loan" placeholder="250000">
+    </div>
+
+    <div class="form-group">
+        <label>Annual Interest Rate (%)</label>
+        <input type="number" id="rate" step="0.01" placeholder="6.5">
+    </div>
+
+    <div class="form-group">
+        <label>Loan Term (Years)</label>
+        <input type="number" id="years" placeholder="30">
+    </div>
+
+    <button onclick="calculateLoan()">Calculate Loan</button>
+
+    <div class="results" id="results">
+
+        <h2>Loan Summary</h2>
+
+        <div class="result-item">
+            <strong>Monthly Payment</strong>
+            <span id="monthly"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Total Interest</strong>
+            <span id="interest"></span>
+        </div>
+
+        <div class="result-item">
+            <strong>Total Repayment</strong>
+            <span id="total"></span>
+        </div>
+
+    </div>
+
+    <section class="seo-content">
+
+        <h2>How to Use the Home Loan Calculator</h2>
+
+        <p>
+            Enter the amount you wish to borrow, your annual interest rate, and the loan
+            repayment period. The calculator instantly estimates your monthly mortgage
+            payment using the standard amortization formula.
+        </p>
+
+        <h2>Why Use a Mortgage Calculator?</h2>
+
+        <p>
+            A home loan calculator helps homebuyers understand their monthly financial
+            commitment before applying for a mortgage. It also shows how much interest
+            will be paid over the lifetime of the loan, making it easier to compare loan
+            options and plan your budget.
+        </p>
+
+    </section>
+
+</div>
+
+<script>
+
+function calculateLoan(){
+
+    const loan = parseFloat(document.getElementById('loan').value);
+    const annualRate = parseFloat(document.getElementById('rate').value);
+    const years = parseFloat(document.getElementById('years').value);
+
+    if(isNaN(loan) || isNaN(annualRate) || isNaN(years)){
+        alert("Please complete all fields.");
+        return;
+    }
+
+    const monthlyRate = annualRate / 100 / 12;
+    const payments = years * 12;
+
+    const x = Math.pow(1 + monthlyRate, payments);
+
+    const monthly = (loan * x * monthlyRate) / (x - 1);
+
+    const total = monthly * payments;
+    const interest = total - loan;
+
+    document.getElementById("monthly").innerHTML =
+        "$" + monthly.toLocaleString(undefined,{
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        });
+
+    document.getElementById("interest").innerHTML =
+        "$" + interest.toLocaleString(undefined,{
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        });
+
+    document.getElementById("total").innerHTML =
+        "$" + total.toLocaleString(undefined,{
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        });
+
+    document.getElementById("results").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>

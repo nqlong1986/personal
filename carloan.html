@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Car Loan Calculator | Monthly Payment, Tax & Payoff Date</title>
+
+<meta name="description" content="Free Car Loan Calculator with sales tax, registration fees, loan start date, payoff date, monthly payment, total interest and total loan cost.">
+
+<meta name="keywords" content="car loan calculator, auto loan calculator, monthly payment calculator, vehicle finance calculator">
+
+<meta name="robots" content="index,follow">
+
+<link rel="canonical" href="https://www.example.com/car-loan-calculator">
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"WebApplication",
+ "name":"Car Loan Calculator",
+ "applicationCategory":"FinanceApplication",
+ "operatingSystem":"Any",
+ "description":"Free online car loan calculator with taxes, fees and payoff date."
+}
+</script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f6f9;
+margin:0;
+padding:30px;
+}
+
+.container{
+max-width:760px;
+margin:auto;
+background:#fff;
+padding:30px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+h1{
+text-align:center;
+color:#0d47a1;
+margin-bottom:10px;
+}
+
+.description{
+text-align:center;
+color:#666;
+margin-bottom:25px;
+}
+
+label{
+display:block;
+margin-top:18px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+width:100%;
+margin-top:30px;
+padding:15px;
+background:#1565c0;
+color:#fff;
+font-size:18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0d47a1;
+}
+
+.result{
+margin-top:30px;
+padding:20px;
+background:#eef5ff;
+border-radius:10px;
+display:none;
+}
+
+.result h2{
+margin-top:0;
+}
+
+.result p{
+font-size:18px;
+padding:6px 0;
+border-bottom:1px solid #ddd;
+}
+
+ul{
+line-height:1.8;
+}
+
+footer{
+margin-top:40px;
+text-align:center;
+color:#777;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Car Loan Calculator</h1>
+
+<p class="description">
+Calculate monthly payments, total interest, taxes, fees and estimated payoff date.
+</p>
+
+<label>Vehicle Price ($)</label>
+<input type="number" id="price" value="30000">
+
+<label>Down Payment ($)</label>
+<input type="number" id="down" value="5000">
+
+<label>Sales Tax (%)</label>
+<input type="number" id="tax" value="7" step="0.01">
+
+<label>Registration & Fees ($)</label>
+<input type="number" id="fees" value="500">
+
+<label>Annual Interest Rate (%)</label>
+<input type="number" id="rate" value="6.5" step="0.01">
+
+<label>Loan Term (Years)</label>
+<input type="number" id="years" value="5">
+
+<label>Loan Start Date</label>
+<input type="date" id="startDate">
+
+<button onclick="calculateLoan()">Calculate Loan</button>
+
+<div class="result" id="result">
+
+<h2>Loan Summary</h2>
+
+<p><strong>Total Vehicle Cost:</strong> $<span id="vehicleCost"></span></p>
+
+<p><strong>Sales Tax:</strong> $<span id="taxAmount"></span></p>
+
+<p><strong>Registration & Fees:</strong> $<span id="feeAmount"></span></p>
+
+<p><strong>Loan Amount:</strong> $<span id="loanAmount"></span></p>
+
+<p><strong>Monthly Payment:</strong> $<span id="monthly"></span></p>
+
+<p><strong>Total Interest:</strong> $<span id="interest"></span></p>
+
+<p><strong>Total Paid:</strong> $<span id="totalPaid"></span></p>
+
+<p><strong>Loan Start Date:</strong> <span id="loanStart"></span></p>
+
+<p><strong>Estimated Payoff Date:</strong> <span id="payoffDate"></span></p>
+
+</div>
+
+<h2>About This Calculator</h2>
+
+<p>
+This free online car loan calculator helps estimate your monthly auto loan payment using vehicle price, down payment, sales tax, registration fees, annual interest rate and loan term. It also estimates your payoff date and total interest cost.
+</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Monthly payment calculation</li>
+<li>Sales tax included</li>
+<li>Registration & dealer fees</li>
+<li>Loan start date</li>
+<li>Estimated payoff date</li>
+<li>Total interest paid</li>
+<li>Total repayment amount</li>
+<li>SEO-friendly HTML</li>
+<li>Responsive design</li>
+</ul>
+
+</div>
+
+<footer>
+© 2026 Your Website | Free Car Loan Calculator
+</footer>
+
+<script>
+
+window.onload=function(){
+
+let today=new Date().toISOString().split('T')[0];
+
+document.getElementById("startDate").value=today;
+
+}
+
+function calculateLoan(){
+
+let price=parseFloat(document.getElementById("price").value)||0;
+
+let down=parseFloat(document.getElementById("down").value)||0;
+
+let taxRate=parseFloat(document.getElementById("tax").value)||0;
+
+let fees=parseFloat(document.getElementById("fees").value)||0;
+
+let rate=parseFloat(document.getElementById("rate").value)||0;
+
+let years=parseFloat(document.getElementById("years").value)||0;
+
+let startInput=document.getElementById("startDate").value;
+
+let salesTax=price*(taxRate/100);
+
+let vehicleCost=price+salesTax+fees;
+
+let loan=vehicleCost-down;
+
+if(loan<=0){
+
+alert("Down payment cannot exceed total vehicle cost.");
+
+return;
+
+}
+
+let months=years*12;
+
+let monthlyRate=rate/100/12;
+
+let payment;
+
+if(rate==0){
+
+payment=loan/months;
+
+}else{
+
+payment=loan*monthlyRate*Math.pow(1+monthlyRate,months)/(Math.pow(1+monthlyRate,months)-1);
+
+}
+
+let totalPaid=payment*months;
+
+let interest=totalPaid-loan;
+
+let startDate=new Date(startInput);
+
+let payoff=new Date(startDate);
+
+payoff.setMonth(payoff.getMonth()+months);
+
+document.getElementById("vehicleCost").innerHTML=vehicleCost.toFixed(2);
+
+document.getElementById("taxAmount").innerHTML=salesTax.toFixed(2);
+
+document.getElementById("feeAmount").innerHTML=fees.toFixed(2);
+
+document.getElementById("loanAmount").innerHTML=loan.toFixed(2);
+
+document.getElementById("monthly").innerHTML=payment.toFixed(2);
+
+document.getElementById("interest").innerHTML=interest.toFixed(2);
+
+document.getElementById("totalPaid").innerHTML=totalPaid.toFixed(2);
+
+document.getElementById("loanStart").innerHTML=startDate.toLocaleDateString();
+
+document.getElementById("payoffDate").innerHTML=payoff.toLocaleDateString();
+
+document.getElementById("result").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>

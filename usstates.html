@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>USA States Quiz | Name All 50 States in 6 Minutes</title>
+
+<meta name="description" content="Test your knowledge of all 50 US states. Type each state name before the 6-minute timer ends. Free interactive USA States Quiz.">
+
+<meta name="keywords" content="USA states quiz, 50 states quiz, US geography quiz, state names game, America states test">
+
+<meta name="robots" content="index, follow">
+
+<style>
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    background:#f4f7fb;
+    color:#222;
+}
+
+header{
+    background:#005bbb;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+#timer{
+    font-size:32px;
+    font-weight:bold;
+    color:#d60000;
+    text-align:center;
+    margin:20px 0;
+}
+
+#score{
+    text-align:center;
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+#guessInput{
+    width:100%;
+    max-width:500px;
+    display:block;
+    margin:auto;
+    padding:15px;
+    font-size:20px;
+    border-radius:8px;
+    border:2px solid #ccc;
+}
+
+.grid{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+}
+
+.box{
+    background:white;
+    border:2px solid #ddd;
+    border-radius:8px;
+    height:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    text-align:center;
+    padding:5px;
+    transition:.3s;
+}
+
+.filled{
+    background:#2ecc71;
+    color:white;
+    border-color:#2ecc71;
+}
+
+#results{
+    display:none;
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+button{
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    background:#005bbb;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00418b;
+}
+
+footer{
+    text-align:center;
+    margin:40px 0;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>USA States Quiz</h1>
+
+<p>Can you name all 50 U.S. states in 6 minutes?</p>
+
+</header>
+
+<div class="container">
+
+<div id="timer">06:00</div>
+
+<div id="score">
+Found:
+<span id="found">0</span>/50
+</div>
+
+<input
+id="guessInput"
+type="text"
+placeholder="Type a state and press Enter..."
+autocomplete="off">
+
+<div id="stateGrid" class="grid"></div>
+
+<div id="results">
+
+<h2>Time's Up!</h2>
+
+<h3 id="finalScore"></h3>
+
+<h3>States You Missed:</h3>
+
+<div id="missed"></div>
+
+<br>
+
+<button onclick="location.reload()">Play Again</button>
+
+</div>
+
+</div>
+
+<footer>
+
+© USA States Quiz
+
+</footer>
+
+<script>
+
+const states=[
+"Alabama","Alaska","Arizona","Arkansas","California",
+"Colorado","Connecticut","Delaware","Florida","Georgia",
+"Hawaii","Idaho","Illinois","Indiana","Iowa",
+"Kansas","Kentucky","Louisiana","Maine","Maryland",
+"Massachusetts","Michigan","Minnesota","Mississippi","Missouri",
+"Montana","Nebraska","Nevada","New Hampshire","New Jersey",
+"New Mexico","New York","North Carolina","North Dakota","Ohio",
+"Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina",
+"South Dakota","Tennessee","Texas","Utah","Vermont",
+"Virginia","Washington","West Virginia","Wisconsin","Wyoming"
+];
+
+const guessed=[];
+
+const grid=document.getElementById("stateGrid");
+
+states.forEach(state=>{
+
+const box=document.createElement("div");
+
+box.className="box";
+
+box.id=state.replace(/\s/g,"");
+
+grid.appendChild(box);
+
+});
+
+const input=document.getElementById("guessInput");
+
+input.focus();
+
+input.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+checkAnswer(input.value);
+
+input.value="";
+
+}
+
+});
+
+function normalize(text){
+
+return text
+.toLowerCase()
+.trim()
+.replace(/\s+/g," ");
+
+}
+
+function checkAnswer(answer){
+
+const guess=normalize(answer);
+
+states.forEach(state=>{
+
+if(normalize(state)===guess){
+
+if(!guessed.includes(state)){
+
+guessed.push(state);
+
+const box=document.getElementById(state.replace(/\s/g,""));
+
+box.textContent=state;
+box.classList.add("filled");
+
+document.getElementById("found").textContent=guessed.length;
+
+if(guessed.length===50){
+
+finishQuiz();
+
+}
+
+}
+
+}
+
+});
+
+}
+
+let time=360;
+
+const timer=document.getElementById("timer");
+
+const countdown=setInterval(()=>{
+
+time--;
+
+const min=Math.floor(time/60);
+
+const sec=time%60;
+
+timer.textContent=
+String(min).padStart(2,"0")+":"+
+String(sec).padStart(2,"0");
+
+if(time<=0){
+
+finishQuiz();
+
+}
+
+},1000);
+
+function finishQuiz(){
+
+clearInterval(countdown);
+
+input.disabled=true;
+
+document.getElementById("results").style.display="block";
+
+document.getElementById("finalScore").textContent=
+"You guessed "+guessed.length+" out of 50 states.";
+
+const missed=states.filter(x=>!guessed.includes(x));
+
+document.getElementById("missed").innerHTML=missed.join(", ");
+
+}
+
+</script>
+
+</body>
+</html>

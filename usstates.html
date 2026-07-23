@@ -132,6 +132,12 @@ footer{
 
 <div id="timer">06:00</div>
 
+<div style="text-align:center;margin-bottom:20px;">
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn" disabled>Pause</button>
+</div>
+
+
 <div id="score">
 Found:
 <span id="found">0</span>/50
@@ -258,46 +264,89 @@ finishQuiz();
 
 }
 
-let time=360;
+let time = 360;
+let countdown = null;
 
-const timer=document.getElementById("timer");
+const timer = document.getElementById("timer");
+const startBtn = document.getElementById("startBtn");
+const pauseBtn = document.getElementById("pauseBtn");
 
-const countdown=setInterval(()=>{
+input.disabled = true;
 
-time--;
+function updateTimer() {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
 
-const min=Math.floor(time/60);
-
-const sec=time%60;
-
-timer.textContent=
-String(min).padStart(2,"0")+":"+
-String(sec).padStart(2,"0");
-
-if(time<=0){
-
-finishQuiz();
-
+    timer.textContent =
+        String(min).padStart(2, "0") +
+        ":" +
+        String(sec).padStart(2, "0");
 }
 
-},1000);
+updateTimer();
+
+function startTimer() {
+
+    if (countdown !== null) return;
+
+    input.disabled = false;
+    input.focus();
+
+    countdown = setInterval(() => {
+
+        time--;
+
+        updateTimer();
+
+        if (time <= 0) {
+            finishQuiz();
+        }
+
+    }, 1000);
+
+    startBtn.disabled = true;
+    pauseBtn.disabled = false;
+}
+
+function pauseTimer() {
+
+    clearInterval(countdown);
+    countdown = null;
+
+    input.disabled = true;
+
+    startBtn.disabled = false;
+    startBtn.textContent = "Resume";
+
+    pauseBtn.disabled = true;
+}
+
+startBtn.addEventListener("click", startTimer);
+pauseBtn.addEventListener("click", pauseTimer);
 
 function finishQuiz(){
 
-clearInterval(countdown);
+    if(countdown){
+        clearInterval(countdown);
+        countdown = null;
+    }
 
-input.disabled=true;
+    input.disabled = true;
 
-document.getElementById("results").style.display="block";
+    startBtn.disabled = true;
+    pauseBtn.disabled = true;
 
-document.getElementById("finalScore").textContent=
-"You guessed "+guessed.length+" out of 50 states.";
+    document.getElementById("results").style.display="block";
 
-const missed=states.filter(x=>!guessed.includes(x));
+    document.getElementById("finalScore").textContent =
+    "You guessed " + guessed.length + " out of 50 states.";
 
-document.getElementById("missed").innerHTML=missed.join(", ");
+    const missed = states.filter(x => !guessed.includes(x));
 
+    document.getElementById("missed").innerHTML = missed.join(", ");
 }
+
+
 
 </script>
 

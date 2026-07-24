@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dota 2 Hero Quiz - Guess All Heroes in 10 Minutes</title>
+
+<meta name="description"
+content="Play the ultimate Dota 2 Hero Quiz. Guess every Strength, Agility, Intelligence, and Universal hero before the 10-minute timer runs out.">
+
+<meta name="keywords"
+content="Dota 2 quiz,Dota 2 heroes,Dota quiz,hero quiz,Valve,Dota 2 game">
+
+<meta name="author" content="Your Name">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://example.com/dota2-hero-quiz">
+
+
+<title>Dota 2 Hero Quiz</title>
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:white;
+    margin:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+#controls{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    font-size:16px;
+}
+
+input{
+    padding:10px;
+    width:300px;
+    font-size:18px;
+}
+
+.category{
+    margin-top:30px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:8px;
+}
+
+.hero{
+    background:#333;
+    border:1px solid #555;
+    padding:8px;
+    text-align:center;
+    border-radius:6px;
+    height:24px;
+}
+
+.found{
+    background:#1d8f3a;
+    color:white;
+    font-weight:bold;
+}
+
+#timer{
+    font-size:28px;
+    color:gold;
+}
+
+#progress{
+    font-size:22px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Dota 2 Hero Quiz</h1>
+
+<div id="controls">
+
+<div id="timer">10:00</div>
+
+<br>
+
+<input id="guess" placeholder="Type hero name..." disabled>
+
+<br><br>
+
+<button id="startBtn">Start</button>
+<button id="pauseBtn">Pause</button>
+
+<div id="progress">
+0 / 126
+</div>
+
+</div>
+
+<div id="quiz"></div>
+
+<script>
+
+//======================
+// HERO LIST
+//======================
+
+const heroes = {
+
+Strength:[
+"Axe",
+"Alchemist",
+"Bristleback",
+"Centaur Warrunner",
+"Chaos Knight",
+"Dawnbreaker",
+"Doom",
+"Dragon Knight",
+"Earth Spirit",
+"Earthshaker",
+"Elder Titan",
+"Huskar",
+"Kunkka",
+"Legion Commander",
+"Lifestealer",
+"Magnus",
+"Marci",
+"Mars",
+"Night Stalker",
+"Ogre Magi",
+"Omniknight",
+"Primal Beast",
+"Pudge",
+"Slardar",
+"Spirit Breaker",
+"Sven",
+"Tidehunter",
+"Timbersaw",
+"Tiny",
+"Treant Protector",
+"Tusk",
+"Underlord",
+"Undying",
+"Wraith King"
+],
+
+Agility:[
+"Anti-Mage",
+"Arc Warden",
+"Bloodseeker",
+"Bounty Hunter",
+"Clinkz",
+"Drow Ranger",
+"Ember Spirit",
+"Faceless Void",
+"Gyrocopter",
+"Hoodwink",
+"Juggernaut",
+"Luna",
+"Medusa",
+"Meepo",
+"Monkey King",
+"Naga Siren",
+"Phantom Assassin",
+"Phantom Lancer",
+"Razor",
+"Riki",
+"Shadow Fiend",
+"Slark",
+"Sniper",
+"Spectre",
+"Templar Assassin",
+"Terrorblade",
+"Troll Warlord",
+"Ursa",
+"Vengeful Spirit",
+"Venomancer",
+"Viper",
+"Weaver"
+],
+
+Intelligence:[
+"Ancient Apparition",
+"Bane",
+"Batrider",
+"Chen",
+"Crystal Maiden",
+"Dark Seer",
+"Dark Willow",
+"Dazzle",
+"Death Prophet",
+"Disruptor",
+"Enchantress",
+"Grimstroke",
+"Invoker",
+"Jakiro",
+"Keeper of the Light",
+"Leshrac",
+"Lich",
+"Lina",
+"Lion",
+"Muerta",
+"Nature's Prophet",
+"Necrophos",
+"Oracle",
+"Outworld Destroyer",
+"Puck",
+"Pugna",
+"Queen of Pain",
+"Rubick",
+"Shadow Demon",
+"Shadow Shaman",
+"Silencer",
+"Skywrath Mage",
+"Storm Spirit",
+"Tinker",
+"Warlock",
+"Witch Doctor",
+"Zeus"
+],
+
+Universal:[
+"Abaddon",
+"Brewmaster",
+"Broodmother",
+"Clockwerk",
+"Dark Willow",
+"Enchantress",
+"Enigma",
+"Io",
+"Lone Druid",
+"Lycan",
+"Mirana",
+"Nyx Assassin",
+"Phoenix",
+"Sand King",
+"Snapfire",
+"Techies",
+"Void Spirit",
+"Visage",
+"Windranger",
+"Winter Wyvern"
+]
+
+};
+
+//======================
+// BUILD BOARD
+//======================
+
+const quiz=document.getElementById("quiz");
+
+let heroMap={};
+let total=0;
+
+for(const cat in heroes){
+
+let section=document.createElement("div");
+section.className="category";
+
+section.innerHTML=`<h2>${cat}</h2>`;
+
+let grid=document.createElement("div");
+grid.className="hero-grid";
+
+heroes[cat].forEach(hero=>{
+
+total++;
+
+let div=document.createElement("div");
+
+div.className="hero";
+
+div.textContent="";
+
+grid.appendChild(div);
+
+heroMap[hero.toLowerCase()]={
+
+hero:hero,
+box:div,
+found:false
+
+};
+
+});
+
+section.appendChild(grid);
+
+quiz.appendChild(section);
+
+}
+
+document.getElementById("progress").innerHTML=`0 / ${total}`;
+
+//======================
+// INPUT
+//======================
+
+let foundCount=0;
+
+const input=document.getElementById("guess");
+
+input.addEventListener("input",()=>{
+
+let guess=input.value.trim().toLowerCase();
+
+if(heroMap[guess] && !heroMap[guess].found){
+
+heroMap[guess].found=true;
+
+heroMap[guess].box.textContent=heroMap[guess].hero;
+
+heroMap[guess].box.classList.add("found");
+
+foundCount++;
+
+document.getElementById("progress").innerHTML=
+`${foundCount} / ${total}`;
+
+input.value="";
+
+if(foundCount===total){
+
+clearInterval(timerInterval);
+
+alert("Congratulations! You found every hero!");
+
+}
+
+}
+
+});
+
+//======================
+// TIMER
+//======================
+
+let remaining=600;
+
+let timerInterval;
+
+let running=false;
+
+function updateTimer(){
+
+let m=Math.floor(remaining/60);
+
+let s=remaining%60;
+
+document.getElementById("timer").innerHTML=
+`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+}
+
+updateTimer();
+
+function startTimer(){
+
+if(running) return;
+
+running=true;
+
+input.disabled=false;
+
+input.focus();
+
+timerInterval=setInterval(()=>{
+
+remaining--;
+
+updateTimer();
+
+if(remaining<=0){
+
+clearInterval(timerInterval);
+
+running=false;
+
+input.disabled=true;
+
+alert("Time's up!");
+
+}
+
+},1000);
+
+}
+
+document.getElementById("startBtn").onclick=()=>{
+
+startTimer();
+
+};
+
+document.getElementById("pauseBtn").onclick=()=>{
+
+if(!running){
+
+startTimer();
+
+document.getElementById("pauseBtn").innerHTML="Pause";
+
+}else{
+
+clearInterval(timerInterval);
+
+running=false;
+
+document.getElementById("pauseBtn").innerHTML="Resume";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>

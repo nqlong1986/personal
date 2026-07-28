@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>European Countries Quiz | Learn All 44 Countries</title>
+<meta name="description" content="Play a free European Countries Quiz with a 5-minute timer. Type the names of all European countries and test your geography knowledge online.">
+<meta name="keywords" content="European countries quiz, Europe geography quiz, Europe map quiz, country quiz, geography game">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Your Website">
+
+<meta property="og:title" content="European Countries Quiz">
+<meta property="og:description" content="Can you name every European country in under 5 minutes?">
+<meta property="og:type" content="website">
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    margin:0;
+    color:#222;
+}
+
+header{
+    background:#0b5ed7;
+    color:#fff;
+    padding:30px;
+    text-align:center;
+}
+
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    align-items:center;
+    margin:20px 0;
+}
+
+button{
+    padding:10px 22px;
+    border:none;
+    cursor:pointer;
+    border-radius:6px;
+    font-size:16px;
+}
+
+#startBtn{
+    background:#198754;
+    color:white;
+}
+
+#pauseBtn{
+    background:#ffc107;
+}
+
+#timer{
+    font-size:24px;
+    font-weight:bold;
+}
+
+#guess{
+    width:320px;
+    max-width:90%;
+    padding:12px;
+    font-size:18px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:12px;
+    margin-top:25px;
+}
+
+.country{
+    background:white;
+    border:2px solid #d7d7d7;
+    border-radius:8px;
+    padding:12px;
+    text-align:center;
+    font-weight:bold;
+    min-height:25px;
+}
+
+.filled{
+    background:#198754;
+    color:white;
+    border-color:#198754;
+}
+
+footer{
+    margin-top:40px;
+    text-align:center;
+    color:#666;
+}
+
+.score{
+    text-align:center;
+    font-size:22px;
+    margin-top:15px;
+}
+</style>
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"Game",
+"name":"European Countries Quiz",
+"description":"Type all European countries before the timer ends.",
+"genre":"Educational Game",
+"educationalUse":"Geography",
+"inLanguage":"en"
+}
+</script>
+
+</head>
+<body>
+
+<header>
+<h1>European Countries Quiz</h1>
+<p>Can you name all European countries within 5 minutes?</p>
+</header>
+
+<main>
+
+<div class="controls">
+<button id="startBtn">Start</button>
+<button id="pauseBtn">Pause</button>
+
+<div id="timer">05:00</div>
+</div>
+
+<div style="text-align:center;">
+<input
+id="guess"
+type="text"
+placeholder="Type a European country..."
+autocomplete="off"
+disabled>
+</div>
+
+<div class="score">
+Found:
+<span id="score">0</span> /
+<span id="total"></span>
+</div>
+
+<div class="grid" id="countries"></div>
+
+<section style="margin-top:40px;">
+<h2>About this Europe Geography Quiz</h2>
+
+<p>
+This European Countries Quiz helps students, teachers, and geography enthusiasts
+learn all sovereign countries in Europe. Simply type each country name correctly
+before the 5-minute timer expires.
+</p>
+
+<h2>How to Play</h2>
+
+<ul>
+<li>Press Start.</li>
+<li>Type country names.</li>
+<li>Correct answers automatically fill the boxes.</li>
+<li>Finish before time runs out.</li>
+</ul>
+</section>
+
+</main>
+
+<footer>
+European Countries Quiz • Free Geography Learning Game
+</footer>
+
+<script>
+
+const countries=[
+"Albania",
+"Andorra",
+"Armenia",
+"Austria",
+"Azerbaijan",
+"Belarus",
+"Belgium",
+"Bosnia and Herzegovina",
+"Bulgaria",
+"Croatia",
+"Cyprus",
+"Czech Republic",
+"Denmark",
+"Estonia",
+"Finland",
+"France",
+"Georgia",
+"Germany",
+"Greece",
+"Hungary",
+"Iceland",
+"Ireland",
+"Italy",
+"Kosovo",
+"Latvia",
+"Liechtenstein",
+"Lithuania",
+"Luxembourg",
+"Malta",
+"Moldova",
+"Monaco",
+"Montenegro",
+"Netherlands",
+"North Macedonia",
+"Norway",
+"Poland",
+"Portugal",
+"Romania",
+"San Marino",
+"Serbia",
+"Slovakia",
+"Slovenia",
+"Spain",
+"Sweden",
+"Switzerland",
+"Ukraine",
+"United Kingdom",
+"Vatican City"
+];
+
+const grid=document.getElementById("countries");
+const input=document.getElementById("guess");
+const score=document.getElementById("score");
+const total=document.getElementById("total");
+const timer=document.getElementById("timer");
+
+total.textContent=countries.length;
+
+let found=new Set();
+
+countries.forEach(country=>{
+    const div=document.createElement("div");
+    div.className="country";
+    div.dataset.country=country.toLowerCase();
+    div.innerHTML="&nbsp;";
+    grid.appendChild(div);
+});
+
+function normalize(str){
+    return str
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g," ");
+}
+
+input.addEventListener("input",()=>{
+
+const guess=normalize(input.value);
+
+countries.forEach(country=>{
+
+if(
+normalize(country)===guess &&
+!found.has(country)
+){
+
+found.add(country);
+
+document.querySelector(`[data-country="${normalize(country)}"]`)
+.classList.add("filled");
+
+document.querySelector(`[data-country="${normalize(country)}"]`)
+.textContent=country;
+
+score.textContent=found.size;
+
+input.value="";
+
+if(found.size===countries.length){
+clearInterval(interval);
+alert("Congratulations! You named every European country!");
+}
+
+}
+
+});
+
+});
+
+let seconds=300;
+let interval=null;
+let paused=true;
+
+function updateTimer(){
+
+let m=Math.floor(seconds/60);
+let s=seconds%60;
+
+timer.textContent=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+}
+
+updateTimer();
+
+document.getElementById("startBtn").onclick=function(){
+
+if(!paused)return;
+
+paused=false;
+
+input.disabled=false;
+input.focus();
+
+interval=setInterval(()=>{
+
+seconds--;
+
+updateTimer();
+
+if(seconds<=0){
+
+clearInterval(interval);
+
+input.disabled=true;
+
+alert(
+"Time is up!\n\nYou found "+
+found.size+
+" of "+
+countries.length+
+" countries."
+);
+
+}
+
+},1000);
+
+}
+
+document.getElementById("pauseBtn").onclick=function(){
+
+if(paused){
+
+paused=false;
+
+interval=setInterval(()=>{
+
+seconds--;
+
+updateTimer();
+
+if(seconds<=0){
+clearInterval(interval);
+input.disabled=true;
+}
+
+},1000);
+
+input.disabled=false;
+input.focus();
+
+this.textContent="Pause";
+
+}else{
+
+paused=true;
+
+clearInterval(interval);
+
+input.disabled=true;
+
+this.textContent="Resume";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

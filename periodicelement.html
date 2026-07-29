@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Periodic Table Element Quiz - Test Your Chemistry Knowledge</title>
+    <meta name="description" content="Challenge yourself with this interactive periodic table element quiz. Fill in the element names before the 12-minute timer runs out! Perfect for chemistry students.">
+    <meta name="keywords" content="periodic table quiz, chemistry quiz, learn elements, science game, interactive periodic table">
+    <meta name="author" content="Science Learning Hub">
+    
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        p.subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        #control-panel {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        #timer {
+            color: #e74c3c;
+        }
+
+        /* Simplified Periodic Table Layout Grid Container */
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(18, minmax(45px, 1fr));
+            gap: 4px;
+            max-width: 1200px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .element-box {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #f1f2f6;
+            position: relative;
+            font-size: 0.75rem;
+        }
+
+        .element-box.empty {
+            background: #fff;
+        }
+
+        .element-number {
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            font-size: 0.6rem;
+            color: #666;
+        }
+
+        .element-symbol {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .element-input {
+            width: 90%;
+            border: none;
+            border-bottom: 1px solid #aaa;
+            text-align: center;
+            font-size: 0.65rem;
+            outline: none;
+            background: transparent;
+        }
+
+        .element-input:focus {
+            border-bottom-color: var(--primary-color);
+        }
+
+        .element-box.correct {
+            background-color: var(--success-color);
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .element-box.correct .element-number,
+        .element-box.correct .element-symbol {
+            color: white;
+        }
+
+        .element-box.correct .element-input {
+            display: none; /* Hide input once answered correctly to show the resolved name */
+        }
+
+        .resolved-name {
+            display: none;
+            font-size: 0.6rem;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 95%;
+        }
+
+        .element-box.correct .resolved-name {
+            display: block;
+        }
+
+        #score-display {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Periodic Table Element Quiz</h1>
+        <p class="subtitle">Type the correct element name for each chemical symbol. You have 12 minutes!</p>
+    </header>
+
+    <div id="control-panel">
+        <div>Time Left: <span id="timer">12:00</span></div>
+        <button id="start-btn" onclick="startQuiz()">Start Quiz</button>
+        <button id="pause-btn" onclick="pauseQuiz()" disabled>Pause</button>
+        <div id="score-display">Score: <span id="score">0</span> / 118</div>
+    </div>
+
+    <div class="quiz-container" id="periodic-grid">
+        </div>
+
+    <script>
+        // Array containing all 118 elements with atomic number, symbol, and correct name (lowercase for validation)
+        const elementsData = [
+            {number: 1, symbol: "H", name: "hydrogen", col: 1, row: 1},
+            {number: 2, symbol: "He", name: "helium", col: 18, row: 1},
+            {number: 3, symbol: "Li", name: "lithium", col: 1, row: 2},
+            {number: 4, symbol: "Be", name: "beryllium", col: 2, row: 2},
+            {number: 5, symbol: "B", name: "boron", col: 13, row: 2},
+            {number: 6, symbol: "C", name: "carbon", col: 14, row: 2},
+            {number: 7, symbol: "N", name: "nitrogen", col: 15, row: 2},
+            {number: 8, symbol: "O", name: "oxygen", col: 16, row: 2},
+            {number: 9, symbol: "F", name: "fluorine", col: 17, row: 2},
+            {number: 10, symbol: "Ne", name: "neon", col: 18, row: 2},
+            {number: 11, symbol: "Na", name: "sodium", col: 1, row: 3},
+            {number: 12, symbol: "Mg", name: "magnesium", col: 2, row: 3},
+            {number: 13, symbol: "Al", name: "aluminum", col: 13, row: 3},
+            {number: 14, symbol: "Si", name: "silicon", col: 14, row: 3},
+            {number: 15, symbol: "P", name: "phosphorus", col: 15, row: 3},
+            {number: 16, symbol: "S", name: "sulfur", col: 16, row: 3},
+            {number: 17, symbol: "Cl", name: "chlorine", col: 17, row: 3},
+            {number: 18, symbol: "Ar", name: "argon", col: 18, row: 3},
+            {number: 19, symbol: "K", name: "potassium", col: 1, row: 4},
+            {number: 20, symbol: "Ca", name: "calcium", col: 2, row: 4},
+            {number: 21, symbol: "Sc", name: "scandium", col: 3, row: 4},
+            {number: 22, symbol: "Ti", name: "titanium", col: 4, row: 4},
+            {number: 23, symbol: "V", name: "vanadium", col: 5, row: 4},
+            {number: 24, symbol: "Cr", name: "chromium", col: 6, row: 4},
+            {number: 25, symbol: "Mn", name: "manganese", col: 7, row: 4},
+            {number: 26, symbol: "Fe", name: "iron", col: 8, row: 4},
+            {number: 27, symbol: "Co", name: "cobalt", col: 9, row: 4},
+            {number: 28, symbol: "Ni", name: "nickel", col: 10, row: 4},
+            {number: 29, symbol: "Cu", name: "copper", col: 11, row: 4},
+            {number: 30, symbol: "Zn", name: "zinc", col: 12, row: 4},
+            {number: 31, symbol: "Ga", name: "gallium", col: 13, row: 4},
+            {number: 32, symbol: "Ge", name: "germanium", col: 14, row: 4},
+            {number: 33, symbol: "As", name: "arsenic", col: 15, row: 4},
+            {number: 34, symbol: "Se", name: "selenium", col: 16, row: 4},
+            {number: 35, symbol: "Br", name: "bromine", col: 17, row: 4},
+            {number: 36, symbol: "Kr", name: "krypton", col: 18, row: 4},
+            {number: 37, symbol: "Rb", name: "rubidium", col: 1, row: 5},
+            {number: 38, symbol: "Sr", name: "strontium", col: 2, row: 5},
+            {number: 39, symbol: "Y", name: "yttrium", col: 3, row: 5},
+            {number: 40, symbol: "Zr", name: "zirconium", col: 4, row: 5},
+            {number: 41, symbol: "Nb", name: "niobium", col: 5, row: 5},
+            {number: 42, symbol: "Mo", name: "molybdenum", col: 6, row: 5},
+            {number: 43, symbol: "Tc", name: "technetium", col: 7, row: 5},
+            {number: 44, symbol: "Ru", name: "ruthenium", col: 8, row: 5},
+            {number: 45, symbol: "Rh", name: "rhodium", col: 9, row: 5},
+            {number: 46, symbol: "Pd", name: "palladium", col: 10, row: 5},
+            {number: 47, symbol: "Ag", name: "silver", col: 11, row: 5},
+            {number: 48, symbol: "Cd", name: "cadmium", col: 12, row: 5},
+            {number: 49, symbol: "In", name: "indium", col: 13, row: 5},
+            {number: 50, symbol: "Sn", name: "tin", col: 14, row: 5},
+            {number: 51, symbol: "Sb", name: "antimony", col: 15, row: 5},
+            {number: 52, symbol: "Te", name: "tellurium", col: 16, row: 5},
+            {number: 53, symbol: "I", name: "iodine", col: 17, row: 5},
+            {number: 54, symbol: "Xe", name: "xenon", col: 18, row: 5},
+            {number: 55, symbol: "Cs", name: "cesium", col: 1, row: 6},
+            {number: 56, symbol: "Ba", name: "barium", col: 2, row: 6},
+            // Lanthanides placeholder layout integration simplified for grid context
+            {number: 57, symbol: "La", name: "lanthanum", col: 3, row: 6},
+            {number: 58, symbol: "Ce", name: "cerium", col: 4, row: 6},
+            {number: 59, symbol: "Pr", name: "praseodymium", col: 5, row: 6},
+            {number: 60, symbol: "Nd", name: "neodymium", col: 6, row: 6},
+            {number: 61, symbol: "Pm", name: "promethium", col: 7, row: 6},
+            {number: 62, symbol: "Sm", name: "samarium", col: 8, row: 6},
+            {number: 63, symbol: "Eu", name: "europium", col: 9, row: 6},
+            {number: 64, symbol: "Gd", name: "gadolinium", col: 10, row: 6},
+            {number: 65, symbol: "Tb", name: "terbium", col: 11, row: 6},
+            {number: 66, symbol: "Dy", name: "dysprosium", col: 12, row: 6},
+            {number: 67, symbol: "Ho", name: "holmium", col: 13, row: 6},
+            {number: 68, symbol: "Er", name: "erbium", col: 14, row: 6},
+            {number: 69, symbol: "Tm", name: "thulium", col: 15, row: 6},
+            {number: 70, symbol: "Yb", name: "ytterbium", col: 16, row: 6},
+            {number: 71, symbol: "Lu", name: "lutetium", col: 17, row: 6},
+            {number: 72, symbol: "Hf", name: "hafnium", col: 4, row: 7},
+            {number: 73, symbol: "Ta", name: "tantalum", col: 5, row: 7},
+            {number: 74, symbol: "W", name: "tungsten", col: 6, row: 7},
+            {number: 75, symbol: "Re", name: "rhenium", col: 7, row: 7},
+            {number: 76, symbol: "Os", name: "osmium", col: 8, row: 7},
+            {number: 77, symbol: "Ir", name: "iridium", col: 9, row: 7},
+            {number: 78, symbol: "Pt", name: "platinum", col: 10, row: 7},
+            {number: 79, symbol: "Au", name: "gold", col: 11, row: 7},
+            {number: 80, symbol: "Hg", name: "mercury", col: 12, row: 7},
+            {number: 81, symbol: "Tl", name: "thallium", col: 13, row: 7},
+            {number: 82, symbol: "Pb", name: "lead", col: 14, row: 7},
+            {number: 83, symbol: "Bi", name: "bismuth", col: 15, row: 7},
+            {number: 84, symbol: "Po", name: "polonium", col: 16, row: 7},
+            {number: 85, symbol: "At", name: "astatine", col: 17, row: 7},
+            {number: 86, symbol: "Rn", name: "radon", col: 18, row: 7},
+            {number: 87, symbol: "Fr", name: "francium", col: 1, row: 8},
+            {number: 88, symbol: "Ra", name: "radium", col: 2, row: 8},
+            {number: 89, symbol: "Ac", name: "actinium", col: 3, row: 8},
+            {number: 90, symbol: "Th", name: "thorium", col: 4, row: 8},
+            {number: 91, symbol: "Pa", name: "protactinium", col: 5, row: 8},
+            {number: 92, symbol: "U", name: "uranium", col: 6, row: 8},
+            {number: 93, symbol: "Np", name: "neptunium", col: 7, row: 8},
+            {number: 94, symbol: "Pu", name: "plutonium", col: 8, row: 8},
+            {number: 95, symbol: "Am", name: "americium", col: 9, row: 8},
+            {number: 96, symbol: "Cm", name: "curium", col: 10, row: 8},
+            {number: 97, symbol: "Bk", name: "berkelium", col: 11, row: 8},
+            {number: 98, symbol: "Cf", name: "californium", col: 12, row: 8},
+            {number: 99, symbol: "Es", name: "einsteinium", col: 13, row: 8},
+            {number: 100, symbol: "Fm", name: "fermium", col: 14, row: 8},
+            {number: 101, symbol: "Md", name: "mendelevium", col: 15, row: 8},
+            {number: 102, symbol: "No", name: "nobelium", col: 16, row: 8},
+            {number: 103, symbol: "Lr", name: "lawrencium", col: 17, row: 8},
+            {number: 104, symbol: "Rf", name: "rutherfordium", col: 4, row: 9},
+            {number: 105, symbol: "Db", name: "dubnium", col: 5, row: 9},
+            {number: 106, symbol: "Sg", name: "seaborgium", col: 6, row: 9},
+            {number: 107, symbol: "Bh", name: "bohrium", col: 7, row: 9},
+            {number: 108, symbol: "Hs", name: "hassium", col: 8, row: 9},
+            {number: 109, symbol: "Mt", name: "meitnerium", col: 9, row: 9},
+            {number: 110, symbol: "Ds", name: "darmstadtium", col: 10, row: 9},
+            {number: 111, symbol: "Rg", name: "roentgenium", col: 11, row: 9},
+            {number: 112, symbol: "Cn", name: "copernicium", col: 12, row: 9},
+            {number: 113, symbol: "Nh", name: "nihonium", col: 13, row: 9},
+            {number: 114, symbol: "Fl", name: "flerovium", col: 14, row: 9},
+            {number: 115, symbol: "Mc", name: "moscovium", col: 15, row: 9},
+            {number: 116, symbol: "Lv", name: "livermorium", col: 16, row: 9},
+            {number: 117, symbol: "Ts", name: "tennessine", col: 17, row: 9},
+            {number: 118, symbol: "Og", name: "oganesson", col: 18, row: 9}
+        ];
+
+        let timerInterval;
+        let timeLeft = 12 * 60; // 12 minutes in seconds
+        let isRunning = false;
+        let score = 0;
+
+        const gridContainer = document.getElementById('periodic-grid');
+        const timerDisplay = document.getElementById('timer');
+        const scoreDisplay = document.getElementById('score');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+
+        // Initialize grid element boxes
+        function initGrid() {
+            gridContainer.innerHTML = '';
+            
+            // To properly place cells based on standard CSS grids layout mapping
+            elementsData.forEach(el => {
+                const box = document.createElement('div');
+                box.className = 'element-box empty';
+                box.style.gridColumn = el.col;
+                box.style.gridRow = el.row;
+                box.id = `box-${el.number}`;
+
+                box.innerHTML = `
+                    <span class="element-number">${el.number}</span>
+                    <span class="element-symbol">${el.symbol}</span>
+                    <input type="text" class="element-input" data-name="${el.name}" disabled autocomplete="off">
+                    <span class="resolved-name">${el.name}</span>
+                `;
+
+                gridContainer.appendChild(box);
+            });
+
+            // Add input listeners for validation checks
+            document.querySelectorAll('.element-input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    if (!isRunning) return;
+                    const typedValue = e.target.value.trim().toLowerCase();
+                    const targetName = e.target.getAttribute('data-name');
+                    
+                    if (typedValue === targetName) {
+                        const parentBox = e.target.closest('.element-box');
+                        if (!parentBox.classList.contains('correct')) {
+                            parentBox.classList.remove('empty');
+                            parentBox.classList.add('correct');
+                            score++;
+                            scoreDisplay.textContent = score;
+
+                            // Check if all are completed
+                            if (score === elementsData.length) {
+                                endGame(true);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function startQuiz() {
+            if (!isRunning) {
+                isRunning = true;
+                startBtn.textContent = "Resume";
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+
+                // Enable inputs
+                document.querySelectorAll('.element-input').forEach(input => {
+                    if (!input.closest('.element-box').classList.contains('correct')) {
+                        input.disabled = false;
+                    }
+                });
+
+                // Focus first available input if nothing typed yet
+                const firstInput = document.querySelector('.element-input:not([disabled])');
+                if (firstInput) firstInput.focus();
+
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        timerDisplay.textContent = formatTime(timeLeft);
+                    } else {
+                        endGame(false);
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseQuiz() {
+            if (isRunning) {
+                isRunning = false;
+                clearInterval(timerInterval);
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+
+                // Disable inputs during pause
+                document.querySelectorAll('.element-input').forEach(input => {
+                    input.disabled = true;
+                });
+            }
+        }
+
+        function endGame(isWon) {
+            isRunning = false;
+            clearInterval(timerInterval);
+            startBtn.disabled = true;
+            pauseBtn.disabled = true;
+
+            // Lock all inputs
+            document.querySelectorAll('.element-input').forEach(input => {
+                input.disabled = true;
+            });
+
+            if (isWon) {
+                alert(`Congratulations! You named all elements correctly with ${formatTime(timeLeft)} remaining!`);
+            } else {
+                alert(`Time's up! Your final score is ${score} out of 118 elements.`);
+            }
+        }
+
+        // Initialize layout on page load
+        initGrid();
+    </script>
+</body>
+</html>

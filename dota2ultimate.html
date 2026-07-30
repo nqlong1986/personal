@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota 2 Ultimate Skills Quiz - Name the Abilities</title>
+    <meta name="description" content="Test your Dota 2 knowledge! Can you name every single ultimate skill in Dota 2 within the 10-minute limit? Play the ultimate ability trivia now.">
+    <meta name="keywords" content="Dota 2, Dota 2 quiz, ultimate abilities, skill names, Dota 2 minigame, MOBA trivia, Valve">
+    <style>
+        :root {
+            --primary-color: #2b2d42;
+            --accent-color: #e63946;
+            --bg-color: #121214;
+            --card-bg: #1f1f23;
+            --text-color: #f8f9fa;
+            --success-color: #2a9d8f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            color: #adb5bd;
+            font-size: 1rem;
+        }
+
+        .game-container {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            max-width: 900px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            background: #2a2a30;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .stats {
+            font-size: 1.1rem;
+        }
+
+        .btn-group button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: bold;
+        }
+
+        .btn-group button:hover {
+            opacity: 0.9;
+        }
+
+        .btn-group button:disabled {
+            background-color: #495057;
+            cursor: not-allowed;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            border: 2px solid #495057;
+            background-color: #2b2d42;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .slot {
+            background-color: #2b2d42;
+            border: 1px dashed #495057;
+            border-radius: 6px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #adb5bd;
+            text-align: center;
+            padding: 0 4px;
+            box-sizing: border-box;
+        }
+
+        .slot.filled {
+            background-color: var(--success-color);
+            border: 1px solid var(--success-color);
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121214;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #495057;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Dota 2 Ultimate Skills Quiz</h1>
+        <p class="subtitle">Type the pure ultimate skill names (without hero names) to fill the boxes!</p>
+    </header>
+
+    <div class="game-container">
+        <div class="control-panel">
+            <div class="timer" id="timerDisplay">10:00</div>
+            <div class="stats">Found: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+            <div class="btn-group">
+                <button id="startBtn" onclick="startGame()">Start Game</button>
+                <button id="pauseBtn" onclick="pauseGame()" disabled>Pause</button>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="userInput" placeholder="Click 'Start Game' to type skill names..." disabled autocomplete="off">
+        </div>
+
+        <div class="grid-container" id="gridContainer">
+            </div>
+    </div>
+
+    <script>
+        // Pure list of Dota 2 ultimate skill names (no hero prefixes)
+        const ultimateSkills = [
+            "Fiend's Gate", "Chemical Rage", "Ice Blast", "Mana Void", 
+            "Tempest Double", "Culling Blade", "Fiend's Grip", "Flaming Lasso", 
+            "Primal Roar", "Rupture", "Track", "Primal Split", 
+            "Warpath", "Spin Web", "Stampede", "Phantasm", 
+            "Hand of God", "Death Pact", "Hookshot", "Freezing Field", 
+            "Wall of Replica", "Terrorize", "Solar Guardian", "Shallow Grave", 
+            "Exorcism", "Static Storm", "Doom", "Elder Dragon Form", 
+            "Marksmanship", "Magnetize", "Echo Slam", "Earth Splitter", 
+            "Fire Remnant", "Impetus", "Black Hole", "Chronosphere", 
+            "Pulverize", "Soulbind", "Call Down", "Sharpshooter", 
+            "Invoke", "Relocate", "Macropyre", "Omnislash", 
+            "Spirit Form", "Ghostship", "Duel", "Pulse Nova", 
+            "Chain Frost", "Infest", "Laguna Blade", "Finger of Death", 
+            "True Form", "Eclipse", "Shapeshifter", "Reverse Polarity", 
+            "Unleash", "Arena of Blood", "Stone Gaze", "Divided We Stand", 
+            "Moonlight Shadow", "Wukong's Command", "Morph", "Song of the Siren", 
+            "Wrath of Nature", "Reaper's Scythe", "Darkness", "Vendetta", 
+            "Multicast", "Guardian Angel", "False Promise", "Sanity's Eclipse", 
+            "Rolling Thunder", "Coup de Grace", "Juxtapose", "Supernova", 
+            "Dream Coil", "Dismember", "Life Drain", "Sonic Wave", 
+            "Eye of the Storm", "Tricks of the Trade", "Spell Steal", "Epicenter", 
+            "Demonic Purge", "Requiem of Souls", "Mass Serpent Ward", "Global Silence", 
+            "Mystic Flare", "Corrosive Haze", "Shadow Dance", "Mortimer Kisses", 
+            "Assassinate", "Haunt", "Nether Strike", "Ball Lightning", 
+            "God's Strength", "Reactive Tazer", "Keen Conveyance", "Grow", 
+            "Overgrowth", "Battle Trance", "Walrus Punch", "Flesh Golem", 
+            "Enrage", "Nether Swap", "Poison Nova", "Viper Strike", 
+            "Summon Familiars", "Dissimilate", "Chaotic Offering", "Time Lapse", 
+            "Focus Fire", "Winter's Curse", "Death Ward", "Reincarnation", 
+            "Thundergod's Wrath", "Falcon Rush"
+        ];
+
+        let timeLeft = 600; // 10 minutes in seconds
+        let timerInterval = null;
+        let isPlaying = false;
+        let isPaused = false;
+        let foundSkills = new Set();
+
+        const timerDisplay = document.getElementById('timerDisplay');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const userInput = document.getElementById('userInput');
+        const gridContainer = document.getElementById('gridContainer');
+
+        totalDisplay.textContent = ultimateSkills.length;
+
+        function initializeGrid() {
+            gridContainer.innerHTML = '';
+            ultimateSkills.forEach((_, index) => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slot.id = `slot-${index}`;
+                slot.textContent = `???`;
+                gridContainer.appendChild(slot);
+            });
+        }
+
+        function startGame() {
+            if (!isPlaying) {
+                isPlaying = true;
+                isPaused = false;
+                foundSkills.clear();
+                timeLeft = 600;
+                initializeGrid();
+                
+                startBtn.textContent = "Restart";
+                pauseBtn.disabled = false;
+                pauseBtn.textContent = "Pause";
+                userInput.disabled = false;
+                userInput.placeholder = "Type an ultimate skill name...";
+                userInput.focus();
+
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                clearInterval(timerInterval);
+                isPlaying = false;
+                startGame();
+            }
+        }
+
+        function pauseGame() {
+            if (!isPlaying) return;
+            
+            if (!isPaused) {
+                isPaused = true;
+                clearInterval(timerInterval);
+                pauseBtn.textContent = "Resume";
+                userInput.disabled = true;
+                userInput.placeholder = "Game paused...";
+            } else {
+                isPaused = false;
+                timerInterval = setInterval(updateTimer, 1000);
+                pauseBtn.textContent = "Pause";
+                userInput.disabled = false;
+                userInput.placeholder = "Type an ultimate skill name...";
+                userInput.focus();
+            }
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                endGame();
+                return;
+            }
+            timeLeft--;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        userInput.addEventListener('input', (e) => {
+            if (!isPlaying || isPaused) return;
+
+            const typedValue = e.target.value.trim().toLowerCase();
+
+            ultimateSkills.forEach((skill, index) => {
+                if (skill.toLowerCase() === typedValue && !foundSkills.has(skill)) {
+                    foundSkills.add(skill);
+                    const slot = document.getElementById(`slot-${index}`);
+                    slot.textContent = skill;
+                    slot.classList.add('filled');
+                    e.target.value = ''; // Clear input on correct match
+
+                    scoreDisplay.textContent = foundSkills.size;
+
+                    if (foundSkills.size === ultimateSkills.length) {
+                        clearInterval(timerInterval);
+                        endGame(true);
+                    }
+                }
+            });
+        });
+
+        function endGame(won = false) {
+            isPlaying = false;
+            userInput.disabled = true;
+            pauseBtn.disabled = true;
+            if (won) {
+                userInput.placeholder = "Victory! You found all skill names!";
+            } else {
+                userInput.placeholder = "Time's up! Game Over.";
+            }
+        }
+
+        initializeGrid();
+    </script>
+</body>
+</html>

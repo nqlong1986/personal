@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Periodic Table Element Quiz - Test Your Chemistry Knowledge</title>
-    <meta name="description" content="Challenge yourself with this interactive periodic table element quiz. Fill in the element names before the 12-minute timer runs out! Perfect for chemistry students.">
+    <meta name="description" content="Challenge yourself with this interactive periodic table element quiz. Fill in the element names before the 15-minute timer runs out! Perfect for chemistry students.">
     <meta name="keywords" content="periodic table quiz, chemistry quiz, learn elements, science game, interactive periodic table">
     <meta name="author" content="Science Learning Hub">
     
@@ -183,7 +183,7 @@
     </header>
 
     <div id="control-panel">
-        <div>Time Left: <span id="timer">12:00</span></div>
+        <div>Time Left: <span id="timer">15:00</span></div>
         <button id="start-btn" onclick="startQuiz()">Start Quiz</button>
         <button id="pause-btn" onclick="pauseQuiz()" disabled>Pause</button>
         <div id="score-display">Score: <span id="score">0</span> / 118</div>
@@ -317,7 +317,7 @@
         ];
 
         let timerInterval;
-        let timeLeft = 12 * 60; // 12 minutes in seconds
+        let timeLeft = 15 * 60; // 15 minutes in seconds
         let isRunning = false;
         let score = 0;
 
